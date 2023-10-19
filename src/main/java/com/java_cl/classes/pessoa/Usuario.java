@@ -14,14 +14,15 @@ public abstract class Usuario {
     protected String senha;
     protected List<Endereco> endereco;
     
-    public Usuario(String nome, String telefone, String email, String cpf, String cargo) {
+    public Usuario(String nome, String telefone, String email, String cpf, String cargo, String senha) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
         this.cpf = cpf;
         this.cargo = cargo;
+        this.senha = senha; 
 
-        endereco = new ArrayList<Endereco>();
+        this.endereco = new ArrayList<Endereco>();
     }
 
     public String getNome() {
