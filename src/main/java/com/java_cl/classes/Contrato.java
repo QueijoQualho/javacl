@@ -26,5 +26,18 @@ public class Contrato {
     }
 
     /* Methods */
-
+    public void pagar(String formaPagamento) {
+        switch (formaPagamento.toLowerCase()) {
+            case "credito":
+            case "crédito":
+                System.out.println("Processando pagamento com cartão de crédito...");
+                break;
+            case "boleto":
+                System.out.println("Processando pagamento com boleto bancário...");
+                break;
+            default:
+                System.out.println("Forma de pagamento não suportada.");
+                break;
+        }
+    }
 }
