@@ -30,7 +30,7 @@ public class Main {
         plano.calcValor();
         System.out.println("Valor do Plano: " + plano.getValor());
 
-        plano.tipoPLano("anual");
+        plano.tipoPlano("anual");
         System.out.println("Tipo de Plano: Anual");
         System.out.println("Valor Anual: " + plano.getValor());
 
