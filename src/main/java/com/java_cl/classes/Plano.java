@@ -60,6 +60,16 @@ public class Plano {
         listaProdutos.add(produto);
     }
 
+    public void tipoPlano(String tipoPlano) {
+        switch(tipoPlano.toLowerCase()){
+            case "anual":
+                this.valor = planoAnual();
+                break;
+            case "mensal":
+                break;
+        }
+    }
+
     public void calcValor() {
         double valor = 0;
         for (Produto produto : listaProdutos) {
