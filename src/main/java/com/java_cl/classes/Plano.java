@@ -54,6 +54,7 @@ public class Plano {
 
     @Override
     public String toString() {
+        /* https://www.devmedia.com.br/a-classe-stringbuilder-em-java/25609 */
         StringBuilder sb = new StringBuilder();
         sb.append("Produtos: \n");
         for (Produto produto : listaProdutos) {

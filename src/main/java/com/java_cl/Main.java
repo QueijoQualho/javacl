@@ -26,6 +26,14 @@ public class Main {
         Produto cloud = new Produto(2, "Cloud Service", 29.99);
         Produto marketing = new Produto(3, "Marketing", 9.99);
 
+        /*
+         * TODO 
+         * - Tratar exceçoes com try-catch
+         * - utilizar metodo de autenticação do sistema login
+         * - refatorar alguma partes do codigo como por exemplo o cadastroEmpresa
+         */
+      
+
         int opcao = 0;
         do {
             System.out.println("Selecione uma opção:\n" +
@@ -90,7 +98,7 @@ public class Main {
 
                     System.out.println("Confira seu plano:"
                             + newPlano.toString()
-                            + "\n Quer confimar esse plano? (Sim ou Nao)");
+                            + "Quer confimar esse plano? (Sim ou Nao)");
                     String escolha = sc.nextLine().toLowerCase();
                     if (escolha.equals("sim")) {
                         listaPlanos.add(newPlano);
@@ -101,6 +109,7 @@ public class Main {
                     break;
                 case 4:
                     for (Usuario usuario : sistemaLogin.usuarios) {
+                        /* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/instanceof */
                         if (usuario instanceof Funcionario) {
                             listaFuncionarios.add((Funcionario) usuario);
                         }
@@ -137,11 +146,9 @@ public class Main {
 
                         Contrato contrato = new Contrato(funcionario, empresa, plano);
 
-                        // Solicitar forma de pagamento
                         System.out.println("Escolha a forma de pagamento (credito ou boleto):");
                         String formaPagamento = sc.nextLine();
 
-                        // Processar pagamento
                         contrato.pagar(formaPagamento);
 
                         System.out.println("Contrato gerado com sucesso!");
