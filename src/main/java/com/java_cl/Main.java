@@ -1,54 +1,186 @@
 package com.java_cl;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import com.java_cl.classes.Contrato;
 import com.java_cl.classes.Empresa_cliente;
-import com.java_cl.classes.Endereco;
 import com.java_cl.classes.Plano;
 import com.java_cl.classes.Produto;
 import com.java_cl.classes.SistemaLogin;
+import com.java_cl.classes.pessoa.Cliente;
 import com.java_cl.classes.pessoa.Funcionario;
-import com.java_cl.classes.pessoa.Representante;
+import com.java_cl.classes.pessoa.Usuario;
 
 public class Main {
     public static void main(String[] args) {
-        Representante representante = new Representante("João", "123-456-7890", "joao@email.com", "12345678901", "Vendedor", "123");
-        System.out.println("Representante: " + representante.getNome());
-
-        Empresa_cliente empresa = new Empresa_cliente(representante, "1234567890", "987-654-3210", "Minha Empresa", "ME", "Grande");
-        System.out.println("Empresa Cliente: " + empresa.getNomeFantasia());
-
-        Plano plano = new Plano("Meu Plano", LocalDate.now(), LocalDate.now().plusMonths(12));
-        System.out.println("Plano: " + plano.getNomeFantasia());
-
-        Produto produto1 = new Produto(1, "Produto 1", 100.0);
-        Produto produto2 = new Produto(2, "Produto 2", 150.0);
-        plano.addProduto(produto1);
-        plano.addProduto(produto2);
-
-        plano.calcValor();
-        System.out.println("Valor do Plano: " + plano.getValor());
-
-        plano.tipoPlano("anual");
-        System.out.println("Tipo de Plano: Anual");
-        System.out.println("Valor Anual: " + plano.getValor());
-
-        Funcionario funcionario = new Funcionario("Maria", "987-654-3210", "maria@email.com", "98765432101", "Gerente", "123", 5000.0);
-        System.out.println("Funcionário: " + funcionario.getNome());
-
-        Contrato contrato = new Contrato(funcionario, empresa, plano);
-
-        contrato.pagar("Boleto");
-
-        Endereco endereco1 = new Endereco("Rua A", "123", "Cidade A", "Estado A", "12345-678");
-        representante.addEndereco(endereco1);
-
+        Scanner sc = new Scanner(System.in);
         SistemaLogin sistemaLogin = new SistemaLogin();
+        List<Plano> listaPlanos = new ArrayList<Plano>();
+        List<Empresa_cliente> listaEmpresas = new ArrayList<Empresa_cliente>();
+        List<Funcionario> listaFuncionarios = new ArrayList<>();
 
-        sistemaLogin.Cadastro(representante);
-        sistemaLogin.Cadastro(funcionario);
+        /* Exemplo produtos */
+        Produto crm = new Produto(1, "CRM", 19.99);
+        Produto cloud = new Produto(2, "Cloud Service", 29.99);
+        Produto marketing = new Produto(3, "Marketing", 9.99);
 
-        sistemaLogin.autenticarUser("joao@email.com", "123");
+        int opcao = 0;
+        do {
+            System.out.println("Selecione uma opção:\n" +
+                    "1. Cadastrar Cliente\n" +
+                    "2. Cadastrar Funcionario\n" +
+                    "3. Montar plano\n" +
+                    "4. Gerar contrato\n" +
+                    "5. Sair");
+            System.out.print("Digite o número da opção desejada: ");
+
+            opcao = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    Empresa_cliente novaEmpresa = cadastroEmpresa(sc, sistemaLogin.cadastrarCliente(sc));
+                    listaEmpresas.add(novaEmpresa);
+
+                    System.out.println("Cadastro Cliente concluído");
+                    break;
+                case 2:
+                    sistemaLogin.cadastrarFuncionario(sc);
+                    System.out.println("Cadastro Funcionario concluído");
+                    break;
+                case 3:
+                    System.out.println("Quais serviços você vai querer: \n" +
+                            "1. CRM \n" +
+                            "2. Cloud services \n" +
+                            "3. Marketing");
+                    String itens = sc.nextLine();
+
+                    /*
+                     * Guia Regex:
+                     * https://medium.com/xp-inc/regex-um-guia-pratico-para-expressões-regulares-
+                     * 1ac5fa4dd39f
+                     */
+                    String[] listaItens = itens.split("[,\\s]+");
+
+                    Plano newPlano = new Plano();
+
+                    for (String e : listaItens) {
+                        int num = Integer.parseInt(e);
+                        switch (num) {
+                            case 1:
+                                newPlano.addProduto(crm);
+                                break;
+                            case 2:
+                                newPlano.addProduto(cloud);
+                                break;
+                            case 3:
+                                newPlano.addProduto(marketing);
+                                break;
+                        }
+                    }
+
+                    newPlano.calcValor();
+
+                    System.out.println("Você quer um plano Anual ou Mensal?");
+                    String tipoPlano = sc.nextLine();
+
+                    newPlano.tipoPlano(tipoPlano);
+
+                    System.out.println("Confira seu plano:"
+                            + newPlano.toString()
+                            + "\n Quer confimar esse plano? (Sim ou Nao)");
+                    String escolha = sc.nextLine().toLowerCase();
+                    if (escolha.equals("sim")) {
+                        listaPlanos.add(newPlano);
+                    } else {
+                        System.out.println("Descartando plano...");
+                    }
+
+                    break;
+                case 4:
+                    for (Usuario usuario : sistemaLogin.usuarios) {
+                        if (usuario instanceof Funcionario) {
+                            listaFuncionarios.add((Funcionario) usuario);
+                        }
+                    }
+
+                    if (listaPlanos.isEmpty() || listaEmpresas.isEmpty() || listaFuncionarios.isEmpty()) {
+                        System.out.println(
+                                "É necessário ter planos, empresas e funcionários cadastrados para gerar um contrato.");
+                    } else {
+                        System.out.println("Selecione um plano disponível:");
+                        for (int i = 0; i < listaPlanos.size(); i++) {
+                            System.out.println(i + 1 + ". Plano " + (i + 1));
+                        }
+                        int planoSelecionado = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Selecione uma empresa cliente:");
+                        for (int i = 0; i < listaEmpresas.size(); i++) {
+                            System.out.println(i + 1 + ". " + listaEmpresas.get(i).getNomeFantasia());
+                        }
+                        int empresaSelecionada = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Funcionários disponíveis:");
+                        for (int i = 0; i < listaFuncionarios.size(); i++) {
+                            System.out.println((i + 1) + ". " + listaFuncionarios.get(i).getNome());
+                        }
+                        int funcionarioSelecionado = sc.nextInt();
+                        sc.nextLine();
+
+                        Funcionario funcionario = listaFuncionarios.get(funcionarioSelecionado - 1);
+                        Plano plano = listaPlanos.get(planoSelecionado - 1);
+                        Empresa_cliente empresa = listaEmpresas.get(empresaSelecionada - 1);
+
+                        Contrato contrato = new Contrato(funcionario, empresa, plano);
+
+                        // Solicitar forma de pagamento
+                        System.out.println("Escolha a forma de pagamento (credito ou boleto):");
+                        String formaPagamento = sc.nextLine();
+
+                        // Processar pagamento
+                        contrato.pagar(formaPagamento);
+
+                        System.out.println("Contrato gerado com sucesso!");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Saindo do sistema");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+
+        } while (opcao != 5);
+
+    }
+
+    static Empresa_cliente cadastroEmpresa(Scanner sc, Cliente representante) {
+        System.out.println("Cadastre a sua empresa:");
+
+        System.out.println("Digite o CNPJ: ");
+        String cnpj = sc.nextLine();
+
+        System.out.println("Digite o telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.println("Digite a razão social: ");
+        String razaoSocial = sc.nextLine();
+
+        System.out.println("Digite o nome fantasia: ");
+        String nomeFantasia = sc.nextLine();
+
+        System.out.println("Digite o numero de funcionarios: ");
+        int tamanho = sc.nextInt();
+        sc.nextLine();
+
+        Empresa_cliente empresa = new Empresa_cliente(representante, cnpj, telefone, razaoSocial, nomeFantasia,
+                tamanho);
+
+        return empresa;
+
     }
 }

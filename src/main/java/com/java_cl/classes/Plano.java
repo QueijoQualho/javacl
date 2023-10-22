@@ -5,55 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Plano {
-    private List<Produto> listaProdutos;
-    private String nomeFantasia;
+    private List<Produto> listaProdutos = new ArrayList<Produto>();
     private LocalDate dataInicio;
     private LocalDate dataFinal;
     private double valor;
 
-    public Plano(String nomeFantasia, LocalDate dataInicio, LocalDate dataFinal) {
-        this.nomeFantasia = nomeFantasia;
-        this.dataInicio = dataInicio;
-        this.dataFinal = dataFinal;
-
-        listaProdutos = new ArrayList<Produto>();
-    }
-
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
-
     public LocalDate getDataInicio() {
         return dataInicio;
-    }
-
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
     }
 
     public LocalDate getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(LocalDate dataFinal) {
-        this.dataFinal = dataFinal;
-    }
-
     public double getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
     public List<Produto> getListaProdutos() {
         return listaProdutos;
-    } 
+    }
 
     /* Method */
     public void addProduto(Produto produto) {
@@ -61,11 +32,14 @@ public class Plano {
     }
 
     public void tipoPlano(String tipoPlano) {
-        switch(tipoPlano.toLowerCase()){
+        this.dataInicio = LocalDate.now();
+        switch (tipoPlano.toLowerCase()) {
             case "anual":
-                this.valor = planoAnual();
+                this.valor *= 12;
+                this.dataFinal = this.dataInicio.plusMonths(12);
                 break;
             case "mensal":
+                this.dataFinal = this.dataInicio.plusMonths(1);
                 break;
         }
     }
@@ -75,10 +49,20 @@ public class Plano {
         for (Produto produto : listaProdutos) {
             valor += produto.getPreco();
         }
-        this.setValor(valor);
+        this.valor = valor;
     }
-    
-    public double planoAnual() {
-        return this.valor * 12;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Produtos: \n");
+        for (Produto produto : listaProdutos) {
+            sb.append(" - ").append(produto.getNome()).append(", Preço: R$").append(produto.getPreco()).append("\n");
+        }
+        sb.append("Data de Início: ").append(dataInicio).append("\n");
+        sb.append("Data Final: ").append(dataFinal).append("\n");
+        sb.append("Valor Total: R$").append(valor).append("\n");
+        return sb.toString();
     }
+
 }

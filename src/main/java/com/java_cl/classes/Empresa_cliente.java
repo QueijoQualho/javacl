@@ -1,17 +1,17 @@
 package com.java_cl.classes;
 
-import com.java_cl.classes.pessoa.Representante;
+import com.java_cl.classes.pessoa.Cliente;
 
 public class Empresa_cliente {
-    private Representante representante;
+    private Cliente representante;
     private String cnpj;
     private String telefone;
     private String razaoSocial;
     private String nomeFantasia;
-    private String tamanho;
+    private int tamanho;
 
-    public Empresa_cliente(Representante representante, String cnpj, String telefone,
-            String razaoSocial, String nomeFantasia, String tamanho) {
+    public Empresa_cliente(Cliente representante, String cnpj, String telefone,
+            String razaoSocial, String nomeFantasia, int tamanho) {
         this.representante = representante;
         this.cnpj = cnpj;
         this.telefone = telefone;
@@ -20,7 +20,7 @@ public class Empresa_cliente {
         this.tamanho = tamanho;
     }
 
-    public Representante getRepresentante() {
+    public Cliente getRepresentante() {
         return representante;
     }
 
@@ -40,7 +40,7 @@ public class Empresa_cliente {
         return nomeFantasia;
     }
 
-    public String getTamanho() {
+    public int getTamanho() {
         return tamanho;
     }
 }

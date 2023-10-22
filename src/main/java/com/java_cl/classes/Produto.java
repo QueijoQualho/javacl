@@ -23,4 +23,9 @@ public class Produto {
         return preco;
     }
 
+    @Override
+    public String toString() {
+        return nome;
+    }
+
 }
