@@ -108,7 +108,7 @@ public class Main {
 
                     break;
                 case 4:
-                    for (Usuario usuario : sistemaLogin.usuarios) {
+                    for (Usuario usuario : sistemaLogin.getUsuarios()) {
                         /* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/instanceof */
                         if (usuario instanceof Funcionario) {
                             listaFuncionarios.add((Funcionario) usuario);

@@ -9,7 +9,7 @@ import com.java_cl.classes.pessoa.Cliente;
 import com.java_cl.classes.pessoa.Usuario;
 
 public class SistemaLogin {
-    public List<Usuario> usuarios = new ArrayList<Usuario>();
+    private List<Usuario> usuarios = new ArrayList<Usuario>();
 
     public List<Usuario> getUsuarios() {
         return usuarios;
