@@ -19,20 +19,24 @@ public class Main {
         SistemaLogin sistemaLogin = new SistemaLogin();
         List<Plano> listaPlanos = new ArrayList<Plano>();
         List<Empresa_cliente> listaEmpresas = new ArrayList<Empresa_cliente>();
-        List<Funcionario> listaFuncionarios = new ArrayList<>();
+        List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
 
         /* Exemplo produtos */
         Produto crm = new Produto(1, "CRM", 19.99);
         Produto cloud = new Produto(2, "Cloud Service", 29.99);
         Produto marketing = new Produto(3, "Marketing", 9.99);
 
+        List<Produto> listaProdutos = new ArrayList<Produto>();
+        listaProdutos.add(marketing);
+        listaProdutos.add(crm);
+        listaProdutos.add(cloud);
+
         /*
-         * TODO 
+         * TODO
          * - Tratar exceçoes com try-catch
          * - utilizar metodo de autenticação do sistema login
          * - refatorar alguma partes do codigo como por exemplo o cadastroEmpresa
          */
-      
 
         int opcao = 0;
         do {
@@ -59,10 +63,10 @@ public class Main {
                     System.out.println("Cadastro Funcionario concluído");
                     break;
                 case 3:
-                    System.out.println("Quais serviços você vai querer: \n" +
-                            "1. CRM \n" +
-                            "2. Cloud services \n" +
-                            "3. Marketing");
+                    System.out.println("Quais serviços você vai querer:");
+                    for (int i = 0; i < listaProdutos.size(); i++) {
+                        System.out.println(i + 1 + listaProdutos.get(i).toString());
+                    }
                     String itens = sc.nextLine();
 
                     /*
@@ -109,7 +113,10 @@ public class Main {
                     break;
                 case 4:
                     for (Usuario usuario : sistemaLogin.getUsuarios()) {
-                        /* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/instanceof */
+                        /*
+                         * https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/
+                         * instanceof
+                         */
                         if (usuario instanceof Funcionario) {
                             listaFuncionarios.add((Funcionario) usuario);
                         }
