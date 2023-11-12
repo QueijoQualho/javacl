@@ -28,6 +28,11 @@ public class Main {
         Produto cloud = new Produto(2, "Cloud Service", 29.99);
         Produto marketing = new Produto(3, "Marketing", 9.99);
 
+        List<Produto> listaProdutos = new ArrayList<Produto>();
+        listaProdutos.add(marketing);
+        listaProdutos.add(crm);
+        listaProdutos.add(cloud);
+
         /*
          * TODO
          * - Tratar exceçoes com try-catch
