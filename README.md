@@ -20,6 +20,7 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
 - Cadastro de empresas clientes.
 - Criação de planos com produtos e cálculo de valor.
 - Geração de contratos e processamento de pagamentos.
+- Listar cadastros realizados
 
 ## Como usar
 1. Execute a classe Main para testar as funcionalidades do sistema. 
@@ -28,6 +29,7 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
    - Cadastrar Funcionário: Permite cadastrar um funcionário no sistema.
    - Montar Plano: Permite criar um plano que inclui diferentes produtos, como CRM, Cloud Service e Marketing.
    - Gerar Contrato: Gere um contrato para uma empresa, selecionando um plano e funcionário disponíveis.
+   - Lista de cadastros: Mostra todos os cadastros realizado no codigo, como funcionarios, clientes, planos e contratos
    - Sair: Encerra o programa.
 
 ## Exemplo de Uso
