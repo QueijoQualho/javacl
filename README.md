@@ -40,5 +40,26 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
 5. O contrato será gerado com sucesso.
 6. Repita essas etapas conforme necessário.
 
+## Detalhamento do Processo de Cadastro e Armazenamento de Dados
+Ao escolher qualquer uma das opções de cadastros o sistema solicitara as informações necessarias para realizar o cadastro 
+
+**Exemplo:**
+```java 
+   // Trecho simplificado para ilustrar o cadastro de um cliente
+   Scanner scanner = new Scanner(System.in);
+
+   System.out.println("Informe o nome da empresa cliente:");
+   String nomeCliente = scanner.nextLine();
+
+   System.out.println("Informe o CNPJ da empresa cliente:");
+   String cnpjCliente = scanner.nextLine();
+
+   // captura de outros dados...
+
+   Cliente novoCliente = new Cliente(nomeCliente, cnpjCliente, /* outros dados */);
+   listaClientes.add(novoCliente); 
+```
+
+
 ## Demonstração do Codigo
 ![Desmonstrativo do codigo rodando](https://i.imgur.com/vvVRELQ.gif)
