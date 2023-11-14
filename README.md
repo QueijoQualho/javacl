@@ -20,6 +20,7 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
 - Cadastro de empresas clientes.
 - Criação de planos com produtos e cálculo de valor.
 - Geração de contratos e processamento de pagamentos.
+- Listar cadastros realizados
 
 ## Como usar
 1. Execute a classe Main para testar as funcionalidades do sistema. 
@@ -28,6 +29,7 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
    - Cadastrar Funcionário: Permite cadastrar um funcionário no sistema.
    - Montar Plano: Permite criar um plano que inclui diferentes produtos, como CRM, Cloud Service e Marketing.
    - Gerar Contrato: Gere um contrato para uma empresa, selecionando um plano e funcionário disponíveis.
+   - Lista de cadastros: Mostra todos os cadastros realizado no codigo, como funcionarios, clientes, planos e contratos
    - Sair: Encerra o programa.
 
 ## Exemplo de Uso
@@ -37,6 +39,27 @@ Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de 
 4. Ao selecionar a opção "Gerar Contrato", o programa solicitará que você escolha um plano, uma empresa cliente e um funcionário disponível. Depois, escolha a forma de pagamento (crédito ou boleto).
 5. O contrato será gerado com sucesso.
 6. Repita essas etapas conforme necessário.
+
+## Detalhamento do Processo de Cadastro e Armazenamento de Dados
+Ao escolher qualquer uma das opções de cadastros o sistema solicitara as informações necessarias para realizar o cadastro 
+
+**Exemplo:**
+```java 
+   // Trecho simplificado para ilustrar o cadastro de um cliente
+   Scanner scanner = new Scanner(System.in);
+
+   System.out.println("Informe o nome da empresa cliente:");
+   String nomeCliente = scanner.nextLine();
+
+   System.out.println("Informe o CNPJ da empresa cliente:");
+   String cnpjCliente = scanner.nextLine();
+
+   // captura de outros dados...
+
+   Cliente novoCliente = new Cliente(nomeCliente, cnpjCliente, /* outros dados */);
+   listaClientes.add(novoCliente); 
+```
+
 
 ## Demonstração do Codigo
 ![Desmonstrativo do codigo rodando](https://i.imgur.com/vvVRELQ.gif)

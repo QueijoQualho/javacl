@@ -70,10 +70,7 @@ public class Main {
                     System.out.println("Nome do plano:");
                     String nomePlano = sc.nextLine();
 
-                    System.out.println("Quais serviços você vai querer: \n" +
-                            "1. CRM \n" +
-                            "2. Cloud services \n" +
-                            "3. Marketing");
+                    mostrarLista(listaProdutos);
                     String itens = sc.nextLine();
 
                     String[] listaItens = itens.split("[,\\s]+");
@@ -84,13 +81,13 @@ public class Main {
                         int num = Integer.parseInt(e);
                         switch (num) {
                             case 1:
-                                newPlano.addProduto(crm);
+                                newPlano.addProduto(marketing);
                                 break;
                             case 2:
-                                newPlano.addProduto(cloud);
+                                newPlano.addProduto(crm);
                                 break;
                             case 3:
-                                newPlano.addProduto(marketing);
+                                newPlano.addProduto(cloud);
                                 break;
                         }
                     }
@@ -116,10 +113,10 @@ public class Main {
                     break;
                 case 4:
                     for (Usuario usuario : sistemaLogin.getUsuarios()) {
-                       
+
                         if (usuario instanceof Funcionario) {
                             Funcionario funcionario = (Funcionario) usuario;
-                
+
                             if (!listaFuncionarios.contains(funcionario)) {
                                 listaFuncionarios.add(funcionario);
                             }
