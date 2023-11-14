@@ -1,9 +1,9 @@
 package com.javacl.classes;
 
-import com.javacl.classes.interfaces.getNome;
+import com.javacl.classes.interfaces.Nomeavel;
 import com.javacl.classes.pessoa.Cliente;
 
-public class Empresa_cliente implements getNome  {
+public class Empresa_cliente implements Nomeavel  {
     private Cliente representante;
     private String cnpj;
     private String telefone;

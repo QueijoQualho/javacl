@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javacl.classes.interfaces.getNome;
+import com.javacl.classes.interfaces.Nomeavel;
 
-public class Plano implements getNome {
+public class Plano implements Nomeavel {
     private List<Produto> listaProdutos = new ArrayList<Produto>();
 
     private String nomeFantasia;

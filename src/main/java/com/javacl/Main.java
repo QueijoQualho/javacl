@@ -9,7 +9,7 @@ import com.javacl.classes.Empresa_cliente;
 import com.javacl.classes.Plano;
 import com.javacl.classes.Produto;
 import com.javacl.classes.SistemaLogin;
-import com.javacl.classes.interfaces.getNome;
+import com.javacl.classes.interfaces.Nomeavel;
 import com.javacl.classes.pessoa.Cliente;
 import com.javacl.classes.pessoa.Funcionario;
 import com.javacl.classes.pessoa.Usuario;
@@ -191,7 +191,7 @@ public class Main {
 
     }
 
-    static <T extends getNome> void mostrarLista(List<T> data) {
+    static <T extends Nomeavel> void mostrarLista(List<T> data) {
         if (data.isEmpty()) {
             System.out.println("A lista está vazia");
             return;

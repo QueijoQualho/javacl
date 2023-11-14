@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javacl.classes.Endereco;
-import com.javacl.classes.interfaces.getNome;
+import com.javacl.classes.interfaces.Nomeavel;
 
-public abstract class Usuario implements getNome {
+public abstract class Usuario implements Nomeavel {
     protected String nome;
     protected String telefone;
     protected String email;
