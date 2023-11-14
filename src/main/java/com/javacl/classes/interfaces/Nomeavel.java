@@ -1,5 +1,5 @@
 package com.javacl.classes.interfaces;
 
-public interface getNome {
+public interface Nomeavel {
     String getNome();
 }
