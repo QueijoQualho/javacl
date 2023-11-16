@@ -188,6 +188,7 @@ public class Main {
 
     }
 
+    /* https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html */
     static <T> void mostrarLista(List<T> data, Function<T, ?> extractor) {
         if (data.isEmpty()) {
             System.out.println("A lista está vazia");
