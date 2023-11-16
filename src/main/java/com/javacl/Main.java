@@ -3,13 +3,13 @@ package com.javacl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 import com.javacl.classes.Contrato;
 import com.javacl.classes.Empresa_cliente;
 import com.javacl.classes.Plano;
 import com.javacl.classes.Produto;
 import com.javacl.classes.SistemaLogin;
-import com.javacl.classes.interfaces.Nomeavel;
 import com.javacl.classes.pessoa.Cliente;
 import com.javacl.classes.pessoa.Funcionario;
 import com.javacl.classes.pessoa.Usuario;
@@ -70,7 +70,7 @@ public class Main {
                     System.out.println("Nome do plano:");
                     String nomePlano = sc.nextLine();
 
-                    mostrarLista(listaProdutos);
+                    mostrarLista(listaProdutos, Produto::getNome);
                     String itens = sc.nextLine();
 
                     String[] listaItens = itens.split("[,\\s]+");
@@ -128,17 +128,17 @@ public class Main {
                                 "É necessário ter planos, empresas e funcionários cadastrados para gerar um contrato.");
                     } else {
                         System.out.println("Selecione um plano disponível:");
-                        mostrarLista(listaPlanos);
+                        mostrarLista(listaPlanos, Plano::getNome);
                         int planoSelecionado = sc.nextInt() - 1;
                         sc.nextLine();
 
                         System.out.println("Selecione uma empresa cliente:");
-                        mostrarLista(listaEmpresas);
+                        mostrarLista(listaEmpresas, Empresa_cliente::getNomeFantasia);
                         int empresaSelecionada = sc.nextInt() - 1;
                         sc.nextLine();
 
                         System.out.println("Selecione um funcionários disponíveis:");
-                        mostrarLista(listaFuncionarios);
+                        mostrarLista(listaFuncionarios, Funcionario::getNome);
                         int funcionarioSelecionado = sc.nextInt() - 1;
                         sc.nextLine();
 
@@ -159,19 +159,19 @@ public class Main {
                     }
                     break;
                 case 5:
-                    System.out.println("Lista de Cadastro:"
+                    System.out.println("Lista de Cadastro \n"
                             + "Empresas:");
-                    mostrarLista(listaEmpresas);
+                    mostrarLista(listaEmpresas, Empresa_cliente::getRazaoSocial);
                     System.out.println("Funcionarios:");
-                    mostrarLista(listaFuncionarios);
+                    mostrarLista(listaFuncionarios, Funcionario::getNome);
                     System.out.println("Planos:");
-                    mostrarLista(listaPlanos);
+                    mostrarLista(listaPlanos, Plano::getNome);
                     System.out.println("Contratos:");
                     if (listaContratos.isEmpty()) {
                         System.out.println("A lista está vazia");
                     } else {
                         for (int i = 0; i < listaContratos.size(); i++) {
-                            String nome = listaContratos.get(i).getEmpresa().getNome();
+                            String nome = listaContratos.get(i).getEmpresa().getNomeFantasia();
                             System.out.println((i + 1) + ". " + "Contrato - " + nome);
                         }
                     }
@@ -188,14 +188,14 @@ public class Main {
 
     }
 
-    static <T extends Nomeavel> void mostrarLista(List<T> data) {
+    static <T> void mostrarLista(List<T> data, Function<T, ?> extractor) {
         if (data.isEmpty()) {
             System.out.println("A lista está vazia");
             return;
         }
 
         for (int i = 0; i < data.size(); i++) {
-            System.out.println((i + 1) + ". " + data.get(i).getNome());
+            System.out.println((i + 1) + ". " + extractor.apply(data.get(i)));
         }
     }
 

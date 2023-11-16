@@ -1,9 +1,8 @@
 package com.javacl.classes;
 
-import com.javacl.classes.interfaces.Nomeavel;
 import com.javacl.classes.pessoa.Cliente;
 
-public class Empresa_cliente implements Nomeavel  {
+public class Empresa_cliente {
     private Cliente representante;
     private String cnpj;
     private String telefone;
@@ -43,10 +42,5 @@ public class Empresa_cliente implements Nomeavel  {
 
     public int getTamanho() {
         return tamanho;
-    }
-
-    @Override
-    public String getNome() {
-        return nomeFantasia;
     }
 }

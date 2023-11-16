@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javacl.classes.interfaces.Nomeavel;
-
-public class Plano implements Nomeavel {
+public class Plano  {
     private List<Produto> listaProdutos = new ArrayList<Produto>();
 
     private String nomeFantasia;
@@ -17,8 +15,7 @@ public class Plano implements Nomeavel {
     public Plano(String nomeFantasia) {
         this.nomeFantasia = nomeFantasia;
     }
-
-    @Override
+    
     public String getNome() {
         return nomeFantasia;
     }

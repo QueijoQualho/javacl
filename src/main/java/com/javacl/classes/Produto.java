@@ -1,8 +1,6 @@
 package com.javacl.classes;
 
-import com.javacl.classes.interfaces.Nomeavel;
-
-public class Produto implements Nomeavel{
+public class Produto{
     private int id;
     private String nome;
     private double preco;
@@ -17,7 +15,6 @@ public class Produto implements Nomeavel{
         return id;
     }
 
-    @Override
     public String getNome() {
         return nome;
     }

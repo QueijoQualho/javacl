@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javacl.classes.Endereco;
-import com.javacl.classes.interfaces.Nomeavel;
 
-public abstract class Usuario implements Nomeavel {
+public abstract class Usuario  {
     protected String nome;
     protected String telefone;
     protected String email;
@@ -25,8 +24,7 @@ public abstract class Usuario implements Nomeavel {
 
         this.endereco = new ArrayList<Endereco>();
     }
-
-    @Override
+    
     public String getNome() {
         return nome;
     }
