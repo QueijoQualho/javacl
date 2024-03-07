@@ -1,10 +1,10 @@
-package com.javacl.classes;
+package com.javacl.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plano  {
+public class Plano {
     private List<Produto> listaProdutos = new ArrayList<Produto>();
 
     private String nomeFantasia;
@@ -15,7 +15,7 @@ public class Plano  {
     public Plano(String nomeFantasia) {
         this.nomeFantasia = nomeFantasia;
     }
-    
+
     public String getNome() {
         return nomeFantasia;
     }
@@ -75,7 +75,5 @@ public class Plano  {
         sb.append("Valor Total: R$").append(valor).append("\n");
         return sb.toString();
     }
-
-
 
 }

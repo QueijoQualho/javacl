@@ -1,13 +1,13 @@
-package com.javacl.classes;
+package com.javacl.model;
 
-import com.javacl.classes.pessoa.Funcionario;
+import com.javacl.model.pessoa.Funcionario;
 
 public class Contrato {
     private Funcionario funcio;
-    private Empresa_cliente empresa;
+    private EmpresaCliente empresa;
     private Plano plano;
 
-    public Contrato(Funcionario funcio, Empresa_cliente empresa, Plano plano) {
+    public Contrato(Funcionario funcio, EmpresaCliente empresa, Plano plano) {
         this.funcio = funcio;
         this.empresa = empresa;
         this.plano = plano;
@@ -17,7 +17,7 @@ public class Contrato {
         return funcio;
     }
 
-    public Empresa_cliente getEmpresa() {
+    public EmpresaCliente getEmpresa() {
         return empresa;
     }
 

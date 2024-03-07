@@ -1,8 +1,8 @@
-package com.javacl.classes;
+package com.javacl.model;
 
-import com.javacl.classes.pessoa.Cliente;
+import com.javacl.model.pessoa.Cliente;
 
-public class Empresa_cliente {
+public class EmpresaCliente {
     private Cliente representante;
     private String cnpj;
     private String telefone;
@@ -10,7 +10,7 @@ public class Empresa_cliente {
     private String nomeFantasia;
     private int tamanho;
 
-    public Empresa_cliente(Cliente representante, String cnpj, String telefone,
+    public EmpresaCliente(Cliente representante, String cnpj, String telefone,
             String razaoSocial, String nomeFantasia, int tamanho) {
         this.representante = representante;
         this.cnpj = cnpj;

@@ -1,4 +1,4 @@
-package com.javacl.classes.pessoa;
+package com.javacl.model.pessoa;
 
 public class Cliente extends Usuario{
 

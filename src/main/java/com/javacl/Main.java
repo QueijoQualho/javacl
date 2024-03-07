@@ -5,21 +5,21 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
 
-import com.javacl.classes.Contrato;
-import com.javacl.classes.Empresa_cliente;
-import com.javacl.classes.Plano;
-import com.javacl.classes.Produto;
-import com.javacl.classes.SistemaLogin;
-import com.javacl.classes.pessoa.Cliente;
-import com.javacl.classes.pessoa.Funcionario;
-import com.javacl.classes.pessoa.Usuario;
+import com.javacl.model.Contrato;
+import com.javacl.model.EmpresaCliente;
+import com.javacl.model.Plano;
+import com.javacl.model.Produto;
+import com.javacl.model.SistemaLogin;
+import com.javacl.model.pessoa.Cliente;
+import com.javacl.model.pessoa.Funcionario;
+import com.javacl.model.pessoa.Usuario;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         SistemaLogin sistemaLogin = new SistemaLogin();
         List<Plano> listaPlanos = new ArrayList<Plano>();
-        List<Empresa_cliente> listaEmpresas = new ArrayList<Empresa_cliente>();
+        List<EmpresaCliente> listaEmpresas = new ArrayList<EmpresaCliente>();
         List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
         List<Contrato> listaContratos = new ArrayList<Contrato>();
 
@@ -57,7 +57,7 @@ public class Main {
             switch (opcao) {
                 case 1:
                     Cliente novoCliente = sistemaLogin.cadastrarCliente(sc);
-                    Empresa_cliente novaEmpresa = sistemaLogin.cadastroEmpresa(sc, novoCliente);
+                    EmpresaCliente novaEmpresa = sistemaLogin.cadastroEmpresa(sc, novoCliente);
                     listaEmpresas.add(novaEmpresa);
 
                     System.out.println("Cadastro Cliente concluído");
@@ -133,7 +133,7 @@ public class Main {
                         sc.nextLine();
 
                         System.out.println("Selecione uma empresa cliente:");
-                        mostrarLista(listaEmpresas, Empresa_cliente::getNomeFantasia);
+                        mostrarLista(listaEmpresas, EmpresaCliente::getNomeFantasia);
                         int empresaSelecionada = sc.nextInt() - 1;
                         sc.nextLine();
 
@@ -144,7 +144,7 @@ public class Main {
 
                         Funcionario funcionario = listaFuncionarios.get(funcionarioSelecionado);
                         Plano plano = listaPlanos.get(planoSelecionado);
-                        Empresa_cliente empresa = listaEmpresas.get(empresaSelecionada);
+                        EmpresaCliente empresa = listaEmpresas.get(empresaSelecionada);
 
                         Contrato contrato = new Contrato(funcionario, empresa, plano);
 
@@ -161,7 +161,7 @@ public class Main {
                 case 5:
                     System.out.println("Lista de Cadastro \n"
                             + "Empresas:");
-                    mostrarLista(listaEmpresas, Empresa_cliente::getRazaoSocial);
+                    mostrarLista(listaEmpresas, EmpresaCliente::getRazaoSocial);
                     System.out.println("Funcionarios:");
                     mostrarLista(listaFuncionarios, Funcionario::getNome);
                     System.out.println("Planos:");

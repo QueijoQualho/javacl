@@ -1,18 +1,39 @@
-package com.javacl.classes;
+package com.javacl.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.javacl.classes.pessoa.Cliente;
-import com.javacl.classes.pessoa.Funcionario;
-import com.javacl.classes.pessoa.Usuario;
+import com.javacl.model.pessoa.Cliente;
+import com.javacl.model.pessoa.Funcionario;
+import com.javacl.model.pessoa.Usuario;
 
 public class SistemaLogin {
     private List<Usuario> usuarios = new ArrayList<Usuario>();
 
     public List<Usuario> getUsuarios() {
         return usuarios;
+    }
+
+    public Connection conexaoBD() {
+        String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:ORCL";
+        String username = "RM553912";
+        String password = "141204";
+
+        Connection connection = null;
+
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+
+            connection = DriverManager.getConnection(jdbcUrl, username, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return connection;
     }
 
     /* Methods */
@@ -111,7 +132,7 @@ public class SistemaLogin {
         return false;
     }
 
-    public Empresa_cliente cadastroEmpresa(Scanner sc, Cliente representante) {
+    public EmpresaCliente cadastroEmpresa(Scanner sc, Cliente representante) {
         System.out.println("Cadastre a sua empresa:");
     
         System.out.println("Digite o CNPJ: ");
@@ -130,7 +151,7 @@ public class SistemaLogin {
         int tamanho = sc.nextInt();
         sc.nextLine();
     
-        Empresa_cliente empresa = new Empresa_cliente(representante, cnpj, telefone, razaoSocial, nomeFantasia,
+        EmpresaCliente empresa = new EmpresaCliente(representante, cnpj, telefone, razaoSocial, nomeFantasia,
                 tamanho);
     
         return empresa;

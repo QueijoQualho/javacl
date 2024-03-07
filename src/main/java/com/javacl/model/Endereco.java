@@ -1,4 +1,4 @@
-package com.javacl.classes;
+package com.javacl.model;
 
 public class Endereco {
     private String rua;
@@ -13,6 +13,19 @@ public class Endereco {
         this.cidade = cidade;
         this.estado = estado;
         this.cep = cep;
+    }
+
+    public Endereco(String enderecoString) {
+        String[] partes = enderecoString.split(",");
+        if (partes.length == 5) {
+            this.rua = partes[0].trim();
+            this.numero = partes[1].trim();
+            this.cidade = partes[2].trim();
+            this.estado = partes[3].trim();
+            this.cep = partes[4].trim();
+        } else {
+            throw new IllegalArgumentException("Formato de endereço inválido: " + enderecoString);
+        }
     }
 
     public String getRua() {

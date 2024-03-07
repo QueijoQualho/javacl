@@ -1,4 +1,4 @@
-package com.javacl.classes;
+package com.javacl.model;
 
 public class Produto{
     private int id;
