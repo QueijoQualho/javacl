@@ -1,8 +1,5 @@
 package com.javacl.model.pessoa;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.javacl.model.Endereco;
 
 public abstract class Usuario {
@@ -12,7 +9,7 @@ public abstract class Usuario {
     protected String cpf;
     protected String cargo;
     protected String senha;
-    protected List<Endereco> endereco;
+    protected Endereco endereco;
 
     public Usuario(String nome, String telefone, String email, String cpf, String cargo, String senha) {
         this.nome = nome;
@@ -21,8 +18,6 @@ public abstract class Usuario {
         this.cpf = cpf;
         this.cargo = cargo;
         this.senha = senha;
-
-        this.endereco = new ArrayList<Endereco>();
     }
 
     public String getNome() {
@@ -49,18 +44,14 @@ public abstract class Usuario {
         return senha;
     }
 
-    public List<Endereco> getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(List<Endereco> endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
-    /* Methods */
-    public void addEndereco(Endereco endereco) {
-        this.endereco.add(endereco);
-    }
 
     
 

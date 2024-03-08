@@ -33,7 +33,7 @@ CREATE TABLE Funcionario (
     cpf VARCHAR(14) UNIQUE NOT NULL,
     cargo VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    salario DOUBLE PRECISION NOT NULL, -- Use DOUBLE PRECISION for floating-point numbers
+    salario DOUBLE PRECISION NOT NULL, 
     endereco_id INT,
     FOREIGN KEY (endereco_id) REFERENCES Endereco(id)
 );

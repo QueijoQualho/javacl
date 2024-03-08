@@ -64,7 +64,7 @@ public class SistemaLogin {
         Endereco endereco = obterEndereco(sc);
 
         Funcionario funcionario = new Funcionario(nome, telefone, email, cpf, cargo, senha, salario);
-        funcionario.addEndereco(endereco);
+        funcionario.setEndereco(endereco);
 
         usuarios.add(funcionario);
     }
@@ -92,7 +92,7 @@ public class SistemaLogin {
         Endereco endereco = obterEndereco(sc);
 
         Cliente cliente = new Cliente(nome, telefone, email, cpf, cargo, senha);
-        cliente.addEndereco(endereco);
+        cliente.setEndereco(endereco);
 
         usuarios.add(cliente);
 

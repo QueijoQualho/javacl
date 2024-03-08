@@ -1,6 +1,7 @@
 package com.javacl.model;
 
 public class Endereco {
+
     private String rua;
     private String numero;
     private String cidade;
@@ -15,17 +16,12 @@ public class Endereco {
         this.cep = cep;
     }
 
-    public Endereco(String enderecoString) {
-        String[] partes = enderecoString.split(",");
-        if (partes.length == 5) {
-            this.rua = partes[0].trim();
-            this.numero = partes[1].trim();
-            this.cidade = partes[2].trim();
-            this.estado = partes[3].trim();
-            this.cep = partes[4].trim();
-        } else {
-            throw new IllegalArgumentException("Formato de endereço inválido: " + enderecoString);
-        }
+    public Endereco(Endereco endereco) {
+        this.rua = endereco.getRua();
+        this.numero = endereco.getNumero();
+        this.cidade = endereco.getCidade();
+        this.estado = endereco.getEstado();
+        this.cep = endereco.getCep();
     }
 
     public String getRua() {
@@ -50,7 +46,7 @@ public class Endereco {
 
     @Override
     public String toString() {
-        return "Endereco [rua=" + rua + ", numero=" + numero + ", cidade=" + cidade + ", estado=" + estado + ", cep=" + cep + "]";
+        return "Endereco [rua=" + rua + ", numero=" + numero + ", cidade=" + cidade + ", estado=" + estado + ", cep="
+                + cep + "]";
     }
 }
-
