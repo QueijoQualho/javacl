@@ -22,74 +22,66 @@ public class ClienteDAO {
     /* GET ALL */
     public List<Cliente> getAllClientes() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
-        String sqlSelect = "SELECT c.*, e.* " +
-                "FROM cliente c " +
-                "LEFT JOIN endereco e ON c.endereco_id = e.id ";
-    
+        String sqlSelect = "SELECT * FROM cliente";
+
         try (PreparedStatement selectStatement = connection.prepareStatement(sqlSelect);
-             ResultSet resultSet = selectStatement.executeQuery()) {
-    
+                ResultSet resultSet = selectStatement.executeQuery()) {
+
+            while (resultSet.next()) {
                 String nome = resultSet.getString("nome");
                 String telefone = resultSet.getString("telefone");
                 String cpf = resultSet.getString("cpf");
                 String email = resultSet.getString("email");
                 String cargo = resultSet.getString("cargo");
                 String senha = resultSet.getString("senha");
-    
+
                 Cliente newCliente = new Cliente(nome, telefone, email, cpf, cargo, senha);
 
                 int enderecoId = resultSet.getInt("endereco_id");
-    
-                Endereco endereco = new Endereco(enderecoDAO.getEnderecoById(enderecoId));
-                newCliente.setEndereco(endereco);
+
+                if (enderecoId != 0) {
+                    Endereco endereco = new Endereco(enderecoDAO.getEnderecoById(enderecoId));
+                    newCliente.setEndereco(endereco);
+                }
 
                 clientes.add(newCliente);
             }
-        
+        }
+
         return clientes;
     }
-    
 
     /* GET by CPF */
     public Cliente getClientebyCPF(String cpf) throws SQLException {
-        String sqlSelect = "SELECT c.*, e.* " +
-                "FROM cliente c " +
-                "INNER JOIN endereco e ON c.endereco_id = e.id " +
-                "WHERE c.cpf = ?";
-    
+        String sqlSelect = "SELECT * FROM cliente WHERE cpf = ?";
         try (PreparedStatement selectStatement = connection.prepareStatement(sqlSelect)) {
             selectStatement.setString(1, cpf);
-    
+            
             try (ResultSet resultSet = selectStatement.executeQuery()) {
-                Cliente cliente = null;
+                if (resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    String telefone = resultSet.getString("telefone");
+                    String email = resultSet.getString("email");
+                    String cargo = resultSet.getString("cargo");
+                    String senha = resultSet.getString("senha");
     
-                while (resultSet.next()) {
-                    if (cliente == null) {
-                        String nome = resultSet.getString("nome");
-                        String telefone = resultSet.getString("telefone");
-                        String email = resultSet.getString("email");
-                        String cargo = resultSet.getString("cargo");
-                        String senha = resultSet.getString("senha");
+                    Cliente cliente = new Cliente(nome, telefone, email, cpf, cargo, senha);
     
-                        cliente = new Cliente(nome, telefone, email, cpf, cargo, senha);
+                    int enderecoId = resultSet.getInt("endereco_id");
+    
+                    if (enderecoId != 0) {
+                        Endereco endereco = new Endereco(enderecoDAO.getEnderecoById(enderecoId));
+                        cliente.setEndereco(endereco);
                     }
     
-                    // Dados do endereço
-                    String rua = resultSet.getString("rua");
-                    String numero = resultSet.getString("numero");
-                    String cidade = resultSet.getString("cidade");
-                    String estado = resultSet.getString("estado");
-                    String cep = resultSet.getString("cep");
-    
-                    Endereco endereco = new Endereco(rua, numero, cidade, estado, cep);
-                    cliente.setEndereco(endereco);
+                    return cliente;
                 }
-    
-                return cliente;
             }
         }
+        return null;
     }
     
+
     /* POST */
     public void createCliente(Cliente cliente, Endereco endereco) throws SQLException {
         int idEndereco = enderecoDAO.createEndereco(endereco);
@@ -113,21 +105,20 @@ public class ClienteDAO {
     /* DELETE */
     public void deleteCliente(String cpf) throws SQLException {
         String sqlDeleteCliente = "DELETE FROM cliente WHERE cpf = ?";
-    
+
         try (PreparedStatement deleteStatementCliente = connection.prepareStatement(sqlDeleteCliente)) {
             deleteStatementCliente.setString(1, cpf);
-    
+
             int affectedRows = deleteStatementCliente.executeUpdate();
-    
+
             if (affectedRows > 0) {
                 System.out.println("Cliente deletado com sucesso!");
             } else {
                 System.out.println("Nenhum cliente encontrado com o CPF informado.");
             }
-        
+
         }
     }
-    
 
     /* UPDATE */
     public void updateCliente(Cliente cliente, Endereco endereco) throws SQLException {

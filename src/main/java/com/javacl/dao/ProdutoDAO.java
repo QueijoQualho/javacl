@@ -56,7 +56,6 @@ public class ProdutoDAO {
     // POST
     public void salvarProduto(Connection connection, Produto produto) throws SQLException {
         String sqlInsert = "INSERT INTO produto (nome, preco) VALUES (?, ?)";
-
         try (PreparedStatement insertStatement = connection.prepareStatement(sqlInsert)) {
             insertStatement.setString(1, produto.getNome());
             insertStatement.setDouble(2, produto.getPreco());
