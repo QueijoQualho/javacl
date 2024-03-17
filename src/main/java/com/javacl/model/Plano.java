@@ -4,36 +4,43 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Plano {
     private List<Produto> listaProdutos = new ArrayList<Produto>();
-
     private String nomeFantasia;
+    private TipoPlano tipoPlano;
     private LocalDate dataInicio;
     private LocalDate dataFinal;
     private double valor;
 
-    public Plano(String nomeFantasia) {
+    public Plano(String nomeFantasia, TipoPlano tipoPlano) {
         this.nomeFantasia = nomeFantasia;
-    }
+        this.dataInicio = LocalDate.now();
+        this.tipoPlano = tipoPlano;
 
-    public String getNome() {
-        return nomeFantasia;
-    }
+        switch (tipoPlano) {
+            case ANUAL:
+                this.dataFinal = dataInicio.plusYears(1);
+                break;
+            case SEMESTRAL:
+                this.dataFinal = dataInicio.plusMonths(6);
+                break;
+            case TRIMESTRAL:
+                this.dataFinal = dataInicio.plusMonths(3);
+                break;
+            case MENSAL:
+                this.dataFinal = dataInicio.plusMonths(1);
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de plano inválido");
+        }
+        
+        this.calcValor();
 
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
-
-    public LocalDate getDataFinal() {
-        return dataFinal;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public List<Produto> getListaProdutos() {
-        return listaProdutos;
     }
 
     /* Method */
@@ -41,26 +48,18 @@ public class Plano {
         listaProdutos.add(produto);
     }
 
-    public void tipoPlano(String tipoPlano) {
-        this.dataInicio = LocalDate.now();
-        switch (tipoPlano.toLowerCase()) {
-            case "anual":
-                this.valor *= 12;
-                this.dataFinal = this.dataInicio.plusMonths(12);
-                break;
-            case "mensal":
-                this.dataFinal = this.dataInicio.plusMonths(1);
-                break;
-        }
-    }
-
     public void calcValor() {
         double valor = 0;
+        int mesAtual = LocalDate.now().getMonthValue();
+    
         for (Produto produto : listaProdutos) {
             valor += produto.getPreco();
         }
+
+        valor *= mesAtual;
+    
         this.valor = valor;
-    }
+    }    
 
     @Override
     public String toString() {

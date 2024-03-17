@@ -2,42 +2,17 @@ package com.javacl.model;
 
 import com.javacl.model.pessoa.Funcionario;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class Contrato {
+    private Long id;
+    private Long idPlano;
     private Funcionario funcio;
     private EmpresaCliente empresa;
-    private Plano plano;
-
-    public Contrato(Funcionario funcio, EmpresaCliente empresa, Plano plano) {
-        this.funcio = funcio;
-        this.empresa = empresa;
-        this.plano = plano;
-    }
-
-    public Funcionario getFuncio() {
-        return funcio;
-    }
-
-    public EmpresaCliente getEmpresa() {
-        return empresa;
-    }
-
-    public Plano getPlano() {
-        return plano;
-    }
-
-    /* Methods */
-    public void pagar(String formaPagamento) {
-        switch (formaPagamento.toLowerCase()) {
-            case "credito":
-            case "crédito":
-                System.out.println("Processando pagamento com cartão de crédito...");
-                break;
-            case "boleto":
-                System.out.println("Processando pagamento com boleto bancário...");
-                break;
-            default:
-                System.out.println("Forma de pagamento não suportada.");
-                break;
-        }
-    }
+    private TipoPagamento tipoPagamento;
 }

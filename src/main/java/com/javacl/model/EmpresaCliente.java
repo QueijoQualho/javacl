@@ -1,46 +1,18 @@
 package com.javacl.model;
 
-import com.javacl.model.pessoa.Cliente;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class EmpresaCliente {
-    private Cliente representante;
+    private Long id;
+    private Long idCliente;
     private String cnpj;
     private String telefone;
     private String razaoSocial;
     private String nomeFantasia;
     private int tamanho;
-
-    public EmpresaCliente(Cliente representante, String cnpj, String telefone,
-            String razaoSocial, String nomeFantasia, int tamanho) {
-        this.representante = representante;
-        this.cnpj = cnpj;
-        this.telefone = telefone;
-        this.razaoSocial = razaoSocial;
-        this.nomeFantasia = nomeFantasia;
-        this.tamanho = tamanho;
-    }
-
-    public Cliente getRepresentante() {
-        return representante;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public int getTamanho() {
-        return tamanho;
-    }
 }

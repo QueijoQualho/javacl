@@ -24,9 +24,9 @@ public class Main {
         List<Contrato> listaContratos = new ArrayList<Contrato>();
 
         /* Exemplo produtos */
-        Produto crm = new Produto(1, "CRM", 19.99);
-        Produto cloud = new Produto(2, "Cloud Service", 29.99);
-        Produto marketing = new Produto(3, "Marketing", 9.99);
+        Produto crm = new Produto((long) 1, "CRM", 19.99);
+        Produto cloud = new Produto((long) 2, "Cloud Service", 29.99);
+        Produto marketing = new Produto((long) 3, "Marketing", 9.99);
 
         List<Produto> listaProdutos = new ArrayList<Produto>();
         listaProdutos.add(marketing);
