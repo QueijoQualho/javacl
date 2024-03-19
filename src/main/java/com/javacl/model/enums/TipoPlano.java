@@ -1,4 +1,4 @@
-package com.javacl.model;
+package com.javacl.model.enums;
 
 public enum TipoPlano {
     ANUAL ("Anual"), 

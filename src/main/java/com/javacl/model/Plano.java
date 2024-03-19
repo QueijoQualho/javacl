@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.javacl.model.enums.TipoPlano;
+
 import lombok.Getter;
 import lombok.Setter;
 

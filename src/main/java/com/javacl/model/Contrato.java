@@ -1,5 +1,6 @@
 package com.javacl.model;
 
+import com.javacl.model.enums.TipoPagamento;
 import com.javacl.model.pessoa.Funcionario;
 
 import lombok.AllArgsConstructor;
