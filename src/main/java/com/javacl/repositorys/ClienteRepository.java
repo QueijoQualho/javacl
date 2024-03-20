@@ -1,7 +1,5 @@
 package com.javacl.repositorys;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,25 +10,13 @@ import com.javacl.model.pessoa.Cliente;
 import com.javacl.model.pessoa.Usuario;
 
 public class ClienteRepository extends UsuarioRepository {
-    private Connection getConnection() {
-        String url = "jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL";
-        String usuario = "rm553912";
-        String senha = "141204";
-
-        try {
-            return DriverManager.getConnection(url, usuario, senha);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     @Override
     public List<Usuario> getUsuarios() {
         String sql = "SELECT * FROM USUARIO ORDER BY NOME ASC";
         List<Usuario> usuarios = new ArrayList<>();
 
-        try (Connection con = this.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql);
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -56,8 +42,8 @@ public class ClienteRepository extends UsuarioRepository {
         String sql = "SELECT * FROM Cliente WHERE id_usuario = ?";
         Cliente cliente = null;
 
-        try (Connection con = this.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -81,8 +67,8 @@ public class ClienteRepository extends UsuarioRepository {
     public void saveUsuario(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome, telefone, email, cpf, cargo, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = this.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getTelefone());
             stmt.setString(3, usuario.getEmail());
@@ -107,8 +93,8 @@ public class ClienteRepository extends UsuarioRepository {
 
         String sql = "UPDATE Cliente SET nome = ?, telefone = ?, email = ?, cpf = ?, cargo = ? WHERE id_usuario = ?";
 
-        try (Connection con = this.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getTelefone());
             stmt.setString(3, cliente.getEmail());
@@ -127,8 +113,7 @@ public class ClienteRepository extends UsuarioRepository {
     public void deleteUsuario(Long id) {
         String sql = "DELETE FROM Cliente WHERE id_usuario = ?";
 
-        try (Connection con = this.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
