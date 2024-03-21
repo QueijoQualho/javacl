@@ -38,16 +38,16 @@ public class ProdutoRepository {
         return produtos;
     }
 
-    public void saveProduto(Produto produto, Long idPlano) {
+    public void saveProduto(List<Produto> produtos, Long idPlano) {
         String sql = "INSERT INTO Produto (nome, preco, id_plano) VALUES (?, ?, ?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-
-            pstm.setString(1, produto.getNome());
-            pstm.setDouble(2, produto.getPreco());
-            pstm.setLong(3, idPlano);
-
-            pstm.executeUpdate();
+            for (Produto produto : produtos) {
+                pstm.setString(1, produto.getNome());
+                pstm.setDouble(2, produto.getPreco());
+                pstm.setLong(3, idPlano);
+                pstm.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

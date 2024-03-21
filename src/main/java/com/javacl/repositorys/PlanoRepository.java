@@ -99,9 +99,8 @@ public class PlanoRepository {
             if (generatedKeys.next()) {
                 Long idPlano = generatedKeys.getLong(1);
 
-                for (Produto produto : plano.getListaProdutos()) {
-                    prodRepo.saveProduto(produto, idPlano);
-                }
+                prodRepo.saveProduto(plano.getListaProdutos(), idPlano);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -17,9 +17,9 @@ public class EnderecoRepository {
         String sql = "SELECT * FROM Endereco WHERE id_usuario = ?";
         List<Endereco> enderecos = new ArrayList<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, usuarioId);
-            try (ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            psmt.setLong(1, usuarioId);
+            try (ResultSet rs = psmt.executeQuery()) {
                 while (rs.next()) {
                     Endereco endereco = new Endereco();
                     endereco.setId(rs.getLong("id_endereco"));
@@ -41,16 +41,16 @@ public class EnderecoRepository {
     public void saveEnderecos(List<Endereco> enderecos, Long idUsuario) {
         String sql = "INSERT INTO Endereco (rua, numero, cidade, estado, cep, id_usuario) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             for (Endereco endereco : enderecos) {
-                stmt.setString(1, endereco.getRua());
-                stmt.setString(2, endereco.getNumero());
-                stmt.setString(3, endereco.getCidade());
-                stmt.setString(4, endereco.getEstado());
-                stmt.setString(5, endereco.getCep());
-                stmt.setLong(6, idUsuario);
+                psmt.setString(1, endereco.getRua());
+                psmt.setString(2, endereco.getNumero());
+                psmt.setString(3, endereco.getCidade());
+                psmt.setString(4, endereco.getEstado());
+                psmt.setString(5, endereco.getCep());
+                psmt.setLong(6, idUsuario);
 
-                stmt.executeUpdate();
+                psmt.executeUpdate();
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar os endereços no banco de dados!");
@@ -61,15 +61,15 @@ public class EnderecoRepository {
     public void updateEndereco(Endereco endereco) {
         String sql = "UPDATE Endereco SET rua = ?, numero = ?, cidade = ?, estado = ?, cep = ? WHERE id_endereco = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, endereco.getRua());
-            stmt.setString(2, endereco.getNumero());
-            stmt.setString(3, endereco.getCidade());
-            stmt.setString(4, endereco.getEstado());
-            stmt.setString(5, endereco.getCep());
-            stmt.setLong(6, endereco.getId());
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            psmt.setString(1, endereco.getRua());
+            psmt.setString(2, endereco.getNumero());
+            psmt.setString(3, endereco.getCidade());
+            psmt.setString(4, endereco.getEstado());
+            psmt.setString(5, endereco.getCep());
+            psmt.setLong(6, endereco.getId());
 
-            int rowsAffected = stmt.executeUpdate();
+            int rowsAffected = psmt.executeUpdate();
             if (rowsAffected == 0) {
                 System.out.println("Nenhum registro de endereço foi atualizado.");
             } else {
