@@ -3,6 +3,7 @@ package com.javacl.repositorys;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,15 @@ public class FuncionarioRepository extends UsuarioRepository {
 
     @Override
     public List<Usuario> getUsuarios() {
-        String sql = "SELECT * FROM USUARIO ORDER BY NOME ASC";
+        String sql = "SELECT u.*, f.salario FROM Usuario u INNER JOIN Funcionario f ON u.id_usuario = f.id_funcionario ORDER BY u.nome ASC";
         List<Usuario> usuarios = new ArrayList<>();
 
-        try (
-                PreparedStatement stmt = connection.prepareStatement(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Funcionario funcionario = new Funcionario();
+                funcionario.setId(rs.getLong("id_usuario"));
                 funcionario.setNome(rs.getString("nome"));
                 funcionario.setTelefone(rs.getString("telefone"));
                 funcionario.setEmail(rs.getString("email"));
@@ -31,7 +32,6 @@ public class FuncionarioRepository extends UsuarioRepository {
 
                 usuarios.add(funcionario);
             }
-
         } catch (SQLException e) {
             System.out.println("Erro ao buscar os dados do banco de dados!");
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class FuncionarioRepository extends UsuarioRepository {
 
     @Override
     public Usuario getUsuarioById(Long id) {
-        String sql = "SELECT * FROM Funcionario WHERE id_usuario = ?";
+        String sql = "SELECT u.*, f.salario FROM Usuario u INNER JOIN Funcionario f ON u.id_usuario = f.id_funcionario WHERE id_usuario = ?";
         Funcionario funcionario = null;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -67,21 +67,34 @@ public class FuncionarioRepository extends UsuarioRepository {
 
     @Override
     public void saveUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (nome, telefone, email, cpf, cargo, salario, senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (!(usuario instanceof Funcionario)) {
+            throw new IllegalArgumentException("O objeto passado não é um Funcionario válido.");
+        }
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            Funcionario funcionario = (Funcionario) usuario;
+        Funcionario funcionario = (Funcionario) usuario;
+        String sql = "INSERT INTO usuario (nome, telefone, email, cpf, cargo, senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, funcionario.getNome());
             stmt.setString(2, funcionario.getTelefone());
             stmt.setString(3, funcionario.getEmail());
             stmt.setString(4, funcionario.getCpf());
             stmt.setString(5, funcionario.getCargo());
-            stmt.setDouble(6, funcionario.getSalario());
-            stmt.setString(7, funcionario.getSenha());
+            stmt.setString(6, funcionario.getSenha());
 
             stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                Long idFuncionario = generatedKeys.getLong(1);
+                funcionario.setId(idFuncionario);
+
+                Funcionario funcio = (Funcionario) usuario;
+                saveFuncionario(funcio);
+
+            }
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar os dados do banco de dados!");
+            System.out.println("Erro ao salvar o funcionário no banco de dados!");
             e.printStackTrace();
         }
     }
@@ -93,7 +106,6 @@ public class FuncionarioRepository extends UsuarioRepository {
         }
 
         Funcionario funcionario = (Funcionario) usuario;
-
         String sql = "UPDATE Funcionario SET nome = ?, telefone = ?, email = ?, cpf = ?, cargo = ?, salario = ? WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -116,14 +128,26 @@ public class FuncionarioRepository extends UsuarioRepository {
     public void deleteUsuario(Long id) {
         String sql = "DELETE FROM Funcionario WHERE id_usuario = ?";
 
-        try (
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Erro ao excluir o funcionário do banco de dados!");
             e.printStackTrace();
         }
-
     }
+
+    private void saveFuncionario(Funcionario funcionario) throws SQLException {
+        String sql = "INSERT INTO Funcionario (id_funcionario, salario) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, funcionario.getId());
+            stmt.setDouble(2, funcionario.getSalario());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar o funcionário no banco de dados!");
+            throw e;
+        }
+    }
+
 }

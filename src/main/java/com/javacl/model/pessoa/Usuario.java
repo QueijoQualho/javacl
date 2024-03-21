@@ -1,5 +1,9 @@
 package com.javacl.model.pessoa;
 
+import java.util.List;
+
+import com.javacl.model.Endereco;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +22,6 @@ public abstract class Usuario {
     private String cpf;
     private String cargo;
     private String senha;
+    private List<Endereco> listaEnderecos;
 
 }
