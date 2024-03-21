@@ -76,7 +76,7 @@ public class ClienteRepository extends UsuarioRepository {
     public void saveUsuario(Usuario usuario) {
         String sql = "INSERT INTO Usuario (nome, telefone, email, cpf, cargo, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, new String[]{"id_usuario"})) {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getTelefone());
             stmt.setString(3, usuario.getEmail());
@@ -112,15 +112,14 @@ public class ClienteRepository extends UsuarioRepository {
         }
 
         Cliente cliente = (Cliente) usuario;
-        String sql = "UPDATE Usuario SET nome = ?, telefone = ?, email = ?, cpf = ?, cargo = ? WHERE id_usuario = ?";
+        String sql = "UPDATE Usuario SET nome = ?, telefone = ?, email = ?, cargo = ? WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getTelefone());
             stmt.setString(3, cliente.getEmail());
-            stmt.setString(4, cliente.getCpf());
-            stmt.setString(5, cliente.getCargo());
-            stmt.setLong(6, cliente.getId());
+            stmt.setString(4, cliente.getCargo());
+            stmt.setLong(5, cliente.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -178,7 +177,9 @@ public class ClienteRepository extends UsuarioRepository {
         enderecos.add(new Endereco(2L, 2L, "Rua B", "456", "Cidade B", "Estado B", "98765-432"));
         enderecos.add(new Endereco(3L, 1L, "Rua C", "789", "Cidade C", "Estado C", "54321-876"));
 
+        System.out.println("Criando cliente");
         Cliente novoCliente = new Cliente();
+        novoCliente.setId(1L);
         novoCliente.setNome("Novo Cliente");
         novoCliente.setTelefone("123456789");
         novoCliente.setEmail("novo_cliente@example.com");
@@ -186,8 +187,8 @@ public class ClienteRepository extends UsuarioRepository {
         novoCliente.setCargo("Cliente");
         novoCliente.setSenha("senha123");
         novoCliente.setListaEnderecos(null);
-        clienteRepository.saveUsuario(novoCliente);
-        System.out.println("\nNovo cliente adicionado com sucesso!");
+       /*  clienteRepository.saveUsuario(novoCliente);
+        System.out.println("\nNovo cliente adicionado com sucesso!") */;
 
         // Testar o método updateUsuario()
         novoCliente.setNome("Novo Nome Cliente");

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,11 @@ public class PlanoRepository {
     private ProdutoRepository prodRepo = new ProdutoRepository();
 
     public List<Plano> getPlano() {
-        String sql = "SELECT * FROM Plano ORDER BY descricao ASC";
+        String sql = "SELECT * FROM Plano ORDER BY NomeFantasia ASC";
         List<Plano> planos = new ArrayList<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Plano plano = new Plano();
@@ -39,7 +40,7 @@ public class PlanoRepository {
 
                 planos.add(plano);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -50,10 +51,10 @@ public class PlanoRepository {
         String sql = "SELECT * FROM Plano WHERE id_plano = ?";
         Plano plano = null;
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 
-            stmt.setLong(1, idPlano);
-            try (ResultSet rs = stmt.executeQuery()) {
+            pstm.setLong(1, idPlano);
+            try (ResultSet rs = pstm.executeQuery()) {
                 if (rs.next()) {
                     plano = new Plano();
                     plano.setId(rs.getLong("id_plano"));
@@ -67,7 +68,7 @@ public class PlanoRepository {
                     plano.setListaProdutos(produtos);
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -77,18 +78,19 @@ public class PlanoRepository {
     public void savePlano(Plano plano) {
         String sql = "INSERT INTO Plano (nomeFantasia, tipoPlano, dataInicio, dataFinal, valor) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql, new String[]{"id_plano"})) {
 
-            stmt.setString(1, plano.getNomeFantasia());
-            stmt.setString(2, plano.getTipoPlano().toString());
-            stmt.setDate(3, Date.valueOf(plano.getDataInicio()));
-            stmt.setDate(4, Date.valueOf(plano.getDataFinal()));
-            stmt.setDouble(5, plano.getValor());
+            pstm.setString(1, plano.getNomeFantasia());
+            pstm.setString(2, plano.getTipoPlano().toString());
+            pstm.setDate(3, Date.valueOf(plano.getDataInicio()));
+            pstm.setDate(4, Date.valueOf(plano.getDataFinal()));
+            pstm.setDouble(5, plano.getValor());
 
-            stmt.executeUpdate();
-
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            pstm.executeUpdate();
+            
+            ResultSet generatedKeys = pstm.getGeneratedKeys();
             if (generatedKeys.next()) {
+                System.out.println("Valor retornado pela chave gerada: " + generatedKeys.getObject(1));
                 Long idPlano = generatedKeys.getLong(1);
 
                 for (Produto produto : plano.getListaProdutos()) {
@@ -96,7 +98,7 @@ public class PlanoRepository {
                     prodRepo.saveProduto(produto);
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -104,29 +106,29 @@ public class PlanoRepository {
     public void updatePlano(Plano plano) {
         String sql = "UPDATE Plano SET nomeFantasia = ?, tipoPlano = ?, dataInicio = ?, dataFinal = ?, valor = ? WHERE id_plano = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, plano.getNomeFantasia());
-            stmt.setString(2, plano.getTipoPlano().toString());
-            stmt.setDate(3, Date.valueOf(plano.getDataInicio()));
-            stmt.setDate(4, Date.valueOf(plano.getDataFinal()));
-            stmt.setDouble(5, plano.getValor());
-            stmt.setLong(6, plano.getId());
+            psmt.setString(1, plano.getNomeFantasia());
+            psmt.setString(2, plano.getTipoPlano().toString());
+            psmt.setDate(3, Date.valueOf(plano.getDataInicio()));
+            psmt.setDate(4, Date.valueOf(plano.getDataFinal()));
+            psmt.setDouble(5, plano.getValor());
+            psmt.setLong(6, plano.getId());
 
-            stmt.executeUpdate();
-        } catch (Exception e) {
+            psmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void deletePlano(Long idPlano) {
-        String sqlDeletePlano = "DELETE FROM Plano WHERE id_plano = ?";
+        String sql = "DELETE FROM Plano WHERE id_plano = ?";
 
-        try (PreparedStatement stmtDeletePlano = connection.prepareStatement(sqlDeletePlano)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
 
-            stmtDeletePlano.setLong(1, idPlano);
-            stmtDeletePlano.executeUpdate();
-        } catch (Exception e) {
+            psmt.setLong(1, idPlano);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

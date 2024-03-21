@@ -14,9 +14,14 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
-        if (connection == null) {
-            createConnection();
+        try {
+            if (connection == null || connection.isClosed()) {
+                createConnection();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
         return connection;
     }
 
@@ -28,4 +33,3 @@ public class DatabaseConnection {
         }
     }
 }
-
