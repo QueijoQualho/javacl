@@ -11,13 +11,13 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Cliente (
     id_cliente INT PRIMARY KEY,
-    FOREIGN KEY (id_cliente) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (id_cliente) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
 CREATE TABLE Funcionario (
     id_funcionario INT PRIMARY KEY,
     salario FLOAT NOT NULL, 
-    FOREIGN KEY (id_funcionario) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (id_funcionario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
 CREATE TABLE Plano (
