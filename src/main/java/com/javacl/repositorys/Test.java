@@ -19,10 +19,10 @@ public class Test {
         } 
 
         // Teste para obter um plano por ID
-        Long idPlano = 6L; // Suponha que o ID 1 exista no banco de dados
+        Long idPlano = 16L; // Suponha que o ID 1 exista no banco de dados
         System.out.println("\nPlano com ID " + idPlano + ":");
         Plano planoById = planoRepo.getPlanoById(idPlano);
-        System.out.println(planoById.getNomeFantasia());
+        System.out.println(planoById);
 
         
         // Teste para salvar um novo plano
@@ -45,7 +45,7 @@ public class Test {
         planoRepo.savePlano(novoPlano);
  
         // Teste para atualizar um plano existente
-        Long idPlanoParaAtualizar = 2L; // Suponha que o ID 2 exista no banco de dados
+        Long idPlanoParaAtualizar = 15L; // Suponha que o ID 2 exista no banco de dados
         Plano planoParaAtualizar = planoRepo.getPlanoById(idPlanoParaAtualizar);
         if (planoParaAtualizar != null) {
             planoParaAtualizar.setNomeFantasia("Plano Atualizado");
