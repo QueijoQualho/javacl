@@ -18,16 +18,15 @@ public class ProdutoRepository {
         String sql = "SELECT * FROM Produto WHERE id_plano = ?";
         List<Produto> produtos = new ArrayList<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 
-            stmt.setLong(1, idPlano);
-            try (ResultSet rs = stmt.executeQuery()) {
+            pstm.setLong(1, idPlano);
+            try (ResultSet rs = pstm.executeQuery()) {
                 while (rs.next()) {
                     Produto produto = new Produto();
                     produto.setId(rs.getLong("id_produto"));
                     produto.setNome(rs.getString("nome"));
                     produto.setPreco(rs.getDouble("preco"));
-                    produto.setIdPlano(idPlano);
 
                     produtos.add(produto);
                 }
@@ -39,16 +38,16 @@ public class ProdutoRepository {
         return produtos;
     }
 
-    public void saveProduto(Produto produto) {
+    public void saveProduto(Produto produto, Long idPlano) {
         String sql = "INSERT INTO Produto (nome, preco, id_plano) VALUES (?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, produto.getNome());
-            stmt.setDouble(2, produto.getPreco());
-            stmt.setLong(3, produto.getIdPlano());
+            pstm.setString(1, produto.getNome());
+            pstm.setDouble(2, produto.getPreco());
+            pstm.setLong(3, idPlano);
 
-            stmt.executeUpdate();
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,13 +56,13 @@ public class ProdutoRepository {
     public void updateProdutosPlano(Plano plano) {
         String sql = "UPDATE Produto SET nome = ?, preco = ? WHERE id_produto = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 
             for (Produto produto : plano.getListaProdutos()) {
-                stmt.setString(1, produto.getNome());
-                stmt.setDouble(2, produto.getPreco());
-                stmt.setLong(3, produto.getId());
-                stmt.executeUpdate();
+                pstm.setString(1, produto.getNome());
+                pstm.setDouble(2, produto.getPreco());
+                pstm.setLong(3, produto.getId());
+                pstm.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();

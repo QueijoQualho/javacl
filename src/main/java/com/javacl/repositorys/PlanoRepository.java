@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,25 +19,25 @@ public class PlanoRepository {
     private ProdutoRepository prodRepo = new ProdutoRepository();
 
     public List<Plano> getPlano() {
-        String sql = "SELECT * FROM Plano ORDER BY NomeFantasia ASC";
+        String sql = "SELECT * FROM Plano";
         List<Plano> planos = new ArrayList<>();
 
         try (PreparedStatement pstm = connection.prepareStatement(sql);
                 ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
-                Plano plano = new Plano();
-                plano.setId(rs.getLong("id_plano"));
-                plano.setNomeFantasia(rs.getString("nomeFantasia"));
-                plano.setTipoPlano(TipoPlano.valueOf(rs.getString("tipoPlano")));
-                plano.setDataInicio(rs.getDate("dataInicio").toLocalDate());
-                plano.setDataFinal(rs.getDate("dataFinal").toLocalDate());
-                plano.setValor(rs.getDouble("valor"));
+                Plano newPlano = new Plano();
+                newPlano.setId(rs.getLong("id_plano"));
+                newPlano.setNomeFantasia(rs.getString("nomeFantasia"));
+                newPlano.setTipoPlano(TipoPlano.valueOf(rs.getString("tipoPlano")));
+                newPlano.setDataInicio(rs.getDate("dataInicio").toLocalDate());
+                newPlano.setDataFinal(rs.getDate("dataFinal").toLocalDate());
+                newPlano.setValor(rs.getDouble("valor"));
 
-                List<Produto> produtos = prodRepo.getProdutosPorPlano(plano.getId());
-                plano.setListaProdutos(produtos);
+                List<Produto> produtos = prodRepo.getProdutosPorPlano(newPlano.getId());
+                newPlano.setListaProdutos(produtos);
 
-                planos.add(plano);
+                planos.add(newPlano);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,27 +47,35 @@ public class PlanoRepository {
     }
 
     public Plano getPlanoById(Long idPlano) {
-        String sql = "SELECT * FROM Plano WHERE id_plano = ?";
+        String sql = "SELECT * FROM plano WHERE id_plano = ?";
         Plano plano = null;
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-
             pstm.setLong(1, idPlano);
+
             try (ResultSet rs = pstm.executeQuery()) {
                 if (rs.next()) {
                     plano = new Plano();
                     plano.setId(rs.getLong("id_plano"));
                     plano.setNomeFantasia(rs.getString("nomeFantasia"));
                     plano.setTipoPlano(TipoPlano.valueOf(rs.getString("tipoPlano")));
-                    plano.setDataInicio(rs.getDate("dataInicio").toLocalDate());
-                    plano.setDataFinal(rs.getDate("dataFinal").toLocalDate());
+
+                    // Verificação para evitar NullPointerException
+                    Date dataInicio = rs.getDate("dataInicio");
+                    Date dataFinal = rs.getDate("dataFinal");
+                    if (dataInicio != null && dataFinal != null) {
+                        plano.setDataInicio(dataInicio.toLocalDate());
+                        plano.setDataFinal(dataFinal.toLocalDate());
+                    }
+
                     plano.setValor(rs.getDouble("valor"));
 
-                    List<Produto> produtos = prodRepo.getProdutosPorPlano(idPlano);
+                    List<Produto> produtos = prodRepo.getProdutosPorPlano(rs.getLong("id_plano"));
                     plano.setListaProdutos(produtos);
                 }
             }
         } catch (SQLException e) {
+            // Trate a exceção de forma mais significativa, como registrando em um log
             e.printStackTrace();
         }
 
@@ -78,7 +85,7 @@ public class PlanoRepository {
     public void savePlano(Plano plano) {
         String sql = "INSERT INTO Plano (nomeFantasia, tipoPlano, dataInicio, dataFinal, valor) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql, new String[]{"id_plano"})) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql, new String[] { "id_plano" })) {
 
             pstm.setString(1, plano.getNomeFantasia());
             pstm.setString(2, plano.getTipoPlano().toString());
@@ -87,15 +94,13 @@ public class PlanoRepository {
             pstm.setDouble(5, plano.getValor());
 
             pstm.executeUpdate();
-            
+
             ResultSet generatedKeys = pstm.getGeneratedKeys();
             if (generatedKeys.next()) {
-                System.out.println("Valor retornado pela chave gerada: " + generatedKeys.getObject(1));
                 Long idPlano = generatedKeys.getLong(1);
 
                 for (Produto produto : plano.getListaProdutos()) {
-                    produto.setIdPlano(idPlano);
-                    prodRepo.saveProduto(produto);
+                    prodRepo.saveProduto(produto, idPlano);
                 }
             }
         } catch (SQLException e) {
@@ -132,5 +137,5 @@ public class PlanoRepository {
             e.printStackTrace();
         }
     }
-    
+
 }

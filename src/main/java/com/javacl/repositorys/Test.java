@@ -4,39 +4,48 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.javacl.model.Plano;
+import com.javacl.model.Produto;
 import com.javacl.model.enums.TipoPlano;
 
 public class Test {
     public static void main(String[] args) {
         PlanoRepository planoRepo = new PlanoRepository();
 
-/*         // Teste para obter todos os planos
+        // Teste para obter todos os planos
         System.out.println("Todos os planos:");
         List<Plano> planos = planoRepo.getPlano();
         for (Plano plano : planos) {
-            System.out.println(plano);
-        } */
+            System.out.println(plano.getNomeFantasia());
+        } 
 
-         // Teste para obter um plano por ID
+        // Teste para obter um plano por ID
         Long idPlano = 6L; // Suponha que o ID 1 exista no banco de dados
         System.out.println("\nPlano com ID " + idPlano + ":");
         Plano planoById = planoRepo.getPlanoById(idPlano);
-        System.out.println(planoById); 
+        System.out.println(planoById.getNomeFantasia());
 
+        
         // Teste para salvar um novo plano
-       /*  Plano novoPlano = new Plano();
+        Plano novoPlano = new Plano();
         novoPlano.setNomeFantasia("Novo Plano");
         novoPlano.setTipoPlano(TipoPlano.ANUAL);
         novoPlano.setDataInicio(LocalDate.now());
         novoPlano.setDataFinal(LocalDate.now().plusYears(1));
-        novoPlano.setValor(100.0);
+        novoPlano.setValor(100.0) ;
         // Adicione produtos ao novo plano, se necessário
+
+        Produto crm = new Produto(1L, "CRM", 19.99);
+        Produto cloud = new Produto(2L, "Cloud Service", 29.99);
+        Produto marketing = new Produto(3L, "Marketing", 9.99);
+        novoPlano.addProduto(marketing);
+        novoPlano.addProduto(cloud);
+        novoPlano.addProduto(crm);
 
         System.out.println("\nSalvando novo plano:");
         planoRepo.savePlano(novoPlano);
- */
-/*          // Teste para atualizar um plano existente
-        Long idPlanoParaAtualizar = 7L; // Suponha que o ID 2 exista no banco de dados
+ 
+        // Teste para atualizar um plano existente
+        Long idPlanoParaAtualizar = 2L; // Suponha que o ID 2 exista no banco de dados
         Plano planoParaAtualizar = planoRepo.getPlanoById(idPlanoParaAtualizar);
         if (planoParaAtualizar != null) {
             planoParaAtualizar.setNomeFantasia("Plano Atualizado");
@@ -46,7 +55,7 @@ public class Test {
             planoRepo.updatePlano(planoParaAtualizar);
         } else {
             System.out.println("\nPlano com ID " + idPlanoParaAtualizar + " não encontrado para atualização.");
-        } */
+        }
 
         // Teste para deletar um plano
         System.out.println("\nDeletando plano com ID " + idPlano + ":");

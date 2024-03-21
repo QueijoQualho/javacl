@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Produto{
     private Long id;
-    private Long idPlano;
     private String nome;
     private double preco;
 
