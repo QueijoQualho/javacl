@@ -1,4 +1,4 @@
-package com.javacl.repositorys;
+package com.javacl.repositorys.tests;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 import com.javacl.model.Plano;
 import com.javacl.model.Produto;
 import com.javacl.model.enums.TipoPlano;
+import com.javacl.repositorys.PlanoRepository;
 
-public class Test {
+public class TestPlano {
     public static void main(String[] args) {
         PlanoRepository planoRepo = new PlanoRepository();
 
