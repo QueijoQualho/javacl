@@ -5,15 +5,17 @@ import com.javacl.model.pessoa.Funcionario;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Contrato {
     private Long id;
-    private Long idPlano;
-    private Funcionario funcio;
+    private Plano plano;
+    private Funcionario funcionario;
     private EmpresaCliente empresa;
     private TipoPagamento tipoPagamento;
 }
