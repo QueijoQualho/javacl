@@ -7,10 +7,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.javacl.model.Endereco;
 import com.javacl.model.pessoa.Funcionario;
 import com.javacl.model.pessoa.Usuario;
 
 public class FuncionarioRepository extends UsuarioRepository {
+    private EnderecoRepository enderecoRepo = new EnderecoRepository();
 
     @Override
     public List<Usuario> getUsuarios() {
@@ -29,6 +31,9 @@ public class FuncionarioRepository extends UsuarioRepository {
                 funcionario.setCpf(rs.getString("cpf"));
                 funcionario.setCargo(rs.getString("cargo"));
                 funcionario.setSalario(rs.getDouble("salario"));
+
+                List<Endereco> enderecos = enderecoRepo.getEnderecosByUsuarioId(rs.getLong("id_usuario"));
+                funcionario.setListaEnderecos(enderecos);
 
                 usuarios.add(funcionario);
             }
@@ -56,6 +61,9 @@ public class FuncionarioRepository extends UsuarioRepository {
                     funcionario.setCpf(rs.getString("cpf"));
                     funcionario.setCargo(rs.getString("cargo"));
                     funcionario.setSalario(rs.getDouble("salario"));
+
+                    List<Endereco> enderecos = enderecoRepo.getEnderecosByUsuarioId(rs.getLong("id_usuario"));
+                    funcionario.setListaEnderecos(enderecos);
                 }
             }
         } catch (SQLException e) {
@@ -72,9 +80,10 @@ public class FuncionarioRepository extends UsuarioRepository {
         }
 
         Funcionario funcionario = (Funcionario) usuario;
-        String sql = "INSERT INTO usuario (nome, telefone, email, cpf, cargo, senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuario (nome, telefone, email, cpf, cargo, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, 
+        new String[]{"id_usuario"})) {
             stmt.setString(1, funcionario.getNome());
             stmt.setString(2, funcionario.getTelefone());
             stmt.setString(3, funcionario.getEmail());
@@ -89,9 +98,9 @@ public class FuncionarioRepository extends UsuarioRepository {
                 Long idFuncionario = generatedKeys.getLong(1);
                 funcionario.setId(idFuncionario);
 
-                Funcionario funcio = (Funcionario) usuario;
-                saveFuncionario(funcio);
+                enderecoRepo.saveEnderecos(funcionario.getListaEnderecos(), idFuncionario);
 
+                saveFuncionario(funcionario);
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar o funcionário no banco de dados!");
@@ -106,7 +115,7 @@ public class FuncionarioRepository extends UsuarioRepository {
         }
 
         Funcionario funcionario = (Funcionario) usuario;
-        String sql = "UPDATE Funcionario SET nome = ?, telefone = ?, email = ?, cpf = ?, cargo = ?, salario = ? WHERE id_usuario = ?";
+        String sql = "UPDATE Usuario SET nome = ?, telefone = ?, email = ?, cpf = ?, cargo = ? WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, funcionario.getNome());
@@ -114,8 +123,7 @@ public class FuncionarioRepository extends UsuarioRepository {
             stmt.setString(3, funcionario.getEmail());
             stmt.setString(4, funcionario.getCpf());
             stmt.setString(5, funcionario.getCargo());
-            stmt.setDouble(6, funcionario.getSalario());
-            stmt.setLong(7, funcionario.getId());
+            stmt.setLong(6, funcionario.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -126,7 +134,7 @@ public class FuncionarioRepository extends UsuarioRepository {
 
     @Override
     public void deleteUsuario(Long id) {
-        String sql = "DELETE FROM Funcionario WHERE id_usuario = ?";
+        String sql = "DELETE FROM Usuario WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -149,5 +157,4 @@ public class FuncionarioRepository extends UsuarioRepository {
             throw e;
         }
     }
-
 }
