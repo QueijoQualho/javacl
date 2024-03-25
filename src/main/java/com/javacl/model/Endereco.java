@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Endereco {
     private Long id;
-    private Long idUsuario;
     private String rua;
     private String numero;
     private String cidade;

@@ -29,9 +29,9 @@ public class TestCliente {
         List<Endereco> enderecos = new ArrayList<>();
 
         // Adicionar alguns endereços à lista
-        enderecos.add(new Endereco(1L, 1L, "Rua A", "123", "Cidade A", "Estado A", "12345-678"));
-        enderecos.add(new Endereco(2L, 1L, "Rua B", "456", "Cidade B", "Estado B", "98765-432"));
-        enderecos.add(new Endereco(3L, 1L, "Rua C", "789", "Cidade C", "Estado C", "54321-876"));
+        enderecos.add(new Endereco(1L, "Rua A", "123", "Cidade A", "Estado A", "12345-678"));
+        enderecos.add(new Endereco(2L, "Rua B", "456", "Cidade B", "Estado B", "98765-432"));
+        enderecos.add(new Endereco(3L, "Rua C", "789", "Cidade C", "Estado C", "54321-876"));
 
         System.out.println("Criando cliente");
         Cliente novoCliente = new Cliente();

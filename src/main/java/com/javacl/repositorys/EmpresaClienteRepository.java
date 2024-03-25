@@ -3,6 +3,7 @@ package com.javacl.repositorys;
 import java.sql.Connection;
 
 import com.javacl.model.connection.DatabaseConnection;
+import com.javacl.model.pessoa.Cliente;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import com.javacl.model.EmpresaCliente;
 
 public class EmpresaClienteRepository {
     private Connection connection = DatabaseConnection.getConnection();
+    private UsuarioRepository clienteRepository = new ClienteRepository();
 
     public List<EmpresaCliente> getEmpresasClientes() {
         List<EmpresaCliente> empresasClientes = new ArrayList<>();
@@ -30,7 +32,7 @@ public class EmpresaClienteRepository {
                 empresaCliente.setRazaoSocial(rs.getString("razaoSocial"));
                 empresaCliente.setNomeFantasia(rs.getString("nomeFantasia"));
                 empresaCliente.setTamanho(rs.getInt("tamanho"));
-                empresaCliente.setIdCliente(rs.getLong("id_cliente"));
+                empresaCliente.setCliente((Cliente) clienteRepository.getUsuarioById(rs.getLong("id_cliente")));
 
                 empresasClientes.add(empresaCliente);
             }
@@ -57,7 +59,7 @@ public class EmpresaClienteRepository {
                     empresaCliente.setRazaoSocial(rs.getString("razaoSocial"));
                     empresaCliente.setNomeFantasia(rs.getString("nomeFantasia"));
                     empresaCliente.setTamanho(rs.getInt("tamanho"));
-                    empresaCliente.setIdCliente(rs.getLong("id_cliente"));
+                    empresaCliente.setCliente((Cliente) clienteRepository.getUsuarioById(rs.getLong("id_cliente")));
                 }
             }
         } catch (SQLException e) {
@@ -77,7 +79,7 @@ public class EmpresaClienteRepository {
             stmt.setString(3, empresaCliente.getRazaoSocial());
             stmt.setString(4, empresaCliente.getNomeFantasia());
             stmt.setInt(5, empresaCliente.getTamanho());
-            stmt.setLong(6, empresaCliente.getIdCliente());
+            stmt.setLong(6, empresaCliente.getCliente().getId());
 
             stmt.executeUpdate();
             System.out.println("Empresa cliente salva com sucesso!");
