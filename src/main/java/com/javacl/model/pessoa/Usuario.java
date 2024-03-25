@@ -24,4 +24,7 @@ public abstract class Usuario {
     private String senha;
     private List<Endereco> listaEnderecos;
 
+    public void addEndereco(Endereco endereco) {
+        this.listaEnderecos.add(endereco);
+    }
 }
