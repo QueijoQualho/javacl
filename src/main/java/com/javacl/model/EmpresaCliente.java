@@ -19,4 +19,18 @@ public class EmpresaCliente {
     private String razaoSocial;
     private String nomeFantasia;
     private int tamanho;
+
+    @Override
+    public String toString() {
+        return "EmpresaCliente{" +
+                "id=" + id +
+                ", cliente=" + cliente +
+                ", cnpj='" + cnpj + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", razaoSocial='" + razaoSocial + '\'' +
+                ", nomeFantasia='" + nomeFantasia + '\'' +
+                ", tamanho=" + tamanho +
+                '}';
+    }
+
 }

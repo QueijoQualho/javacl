@@ -25,7 +25,6 @@ public class Plano {
     private double valor;
     private List<Produto> listaProdutos = new ArrayList<Produto>();
 
-
     public Plano(String nomeFantasia, TipoPlano tipoPlano, Long id) {
         this.id = id;
         this.nomeFantasia = nomeFantasia;
@@ -71,15 +70,19 @@ public class Plano {
 
     @Override
     public String toString() {
-        /* https://www.devmedia.com.br/a-classe-stringbuilder-em-java/25609 */
         StringBuilder sb = new StringBuilder();
-        sb.append("Produtos: \n");
+        sb.append("Plano {\n");
+        sb.append("  Id: ").append(id).append("\n");
+        sb.append("  Nome Fantasia: ").append(nomeFantasia).append("\n");
+        sb.append("  Tipo de Plano: ").append(tipoPlano).append("\n");
+        sb.append("  Data de Início: ").append(dataInicio).append("\n");
+        sb.append("  Data Final: ").append(dataFinal).append("\n");
+        sb.append("  Valor: ").append(valor).append("\n");
+        sb.append("  Lista de Produtos:\n");
         for (Produto produto : listaProdutos) {
-            sb.append(" - ").append(produto.getNome()).append(", Preço: R$").append(produto.getPreco()).append("\n");
+            sb.append("    ").append(produto).append("\n");
         }
-        sb.append("Data de Início: ").append(dataInicio).append("\n");
-        sb.append("Data Final: ").append(dataFinal).append("\n");
-        sb.append("Valor Total: R$").append(valor).append("\n");
+        sb.append("}");
         return sb.toString();
     }
 

@@ -1,12 +1,16 @@
 package com.javacl.repositorys.tests;
 
 import com.javacl.model.EmpresaCliente;
+import com.javacl.model.pessoa.Cliente;
+import com.javacl.repositorys.ClienteRepository;
 import com.javacl.repositorys.EmpresaClienteRepository;
+import com.javacl.repositorys.UsuarioRepository;
 
 public class TestEmpresaCliente {
     public static void main(String[] args) {
         // Instanciando o repositório de empresas clientes
         EmpresaClienteRepository empresaClienteRepository = new EmpresaClienteRepository();
+        UsuarioRepository  usuarioRepository = new ClienteRepository();
 
         // Testando a função de buscar todas as empresas clientes
         System.out.println("Todas as empresas clientes:");
@@ -24,12 +28,12 @@ public class TestEmpresaCliente {
 
         // Testando a função de salvar uma nova empresa cliente
         EmpresaCliente novaEmpresaCliente = new EmpresaCliente();
-        novaEmpresaCliente.setCnpj("12345678901234");
+        novaEmpresaCliente.setCnpj("12345s78901234");
         novaEmpresaCliente.setTelefone("(11) 98765-4321");
         novaEmpresaCliente.setRazaoSocial("Nova Razão Social");
         novaEmpresaCliente.setNomeFantasia("Novo Nome Fantasia");
         novaEmpresaCliente.setTamanho(50);
-        novaEmpresaCliente.setIdCliente(15L); // Defina o ID do cliente associado
+        novaEmpresaCliente.setCliente((Cliente) usuarioRepository.getUsuarioById(15L)); 
 
         empresaClienteRepository.saveEmpresaCliente(novaEmpresaCliente);
 

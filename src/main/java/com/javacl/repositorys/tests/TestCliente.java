@@ -51,8 +51,8 @@ public class TestCliente {
         clienteRepository.updateUsuario(novoCliente);
         System.out.println("\nCliente atualizado com sucesso!");
 
-        /* // Testar o método deleteUsuario()
+        // Testar o método deleteUsuario()
         clienteRepository.deleteUsuario(novoCliente.getId());
-        System.out.println("\nCliente excluído com sucesso!"); */
+        System.out.println("\nCliente excluído com sucesso!"); 
     }
 }
