@@ -12,7 +12,41 @@ import com.javacl.repositorys.UsuarioRepository;
 public class ClienteMenu {
     public static final UsuarioRepository clienteRepo = new ClienteRepository();
 
-    public static void cadastrarCliente(Scanner sc) {
+    public static void menuCliente(Scanner sc) {
+        System.out.println("Menu Cliente:");
+        System.out.println("1 - Cadastrar Cliente");
+        System.out.println("2 - Atualizar Cliente");
+        System.out.println("3 - Excluir Cliente");
+        System.out.println("4 - Visualizar Clientes");
+        System.out.println("0 - Voltar ao menu principal");
+
+        int opcaoCliente = Integer.parseInt(sc.nextLine());
+        switch (opcaoCliente) {
+            case 1:
+                cadastrarCliente(sc);
+                break;
+            case 2:
+                atualizarCliente(sc);
+                break;
+            case 3:
+                deletarCliente(sc);
+                break;
+            case 4:
+                List<Usuario> clientes = pegarCliente();
+                for (Usuario usuario : clientes) {
+                    System.out.println(usuario.toString());
+                }
+                break;
+            case 0:
+                System.out.println("Voltando ao menu principal...");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
+    }
+
+    private static void cadastrarCliente(Scanner sc) {
         System.out.println("Cadastro de Cliente:");
 
         System.out.print("Nome: ");
@@ -33,9 +67,8 @@ public class ClienteMenu {
         System.out.print("Senha: ");
         String senha = sc.nextLine();
 
-        Endereco enderecos = EnderecoMenu.cadastroEndereco(sc);
+        Endereco enderecos = EnderecoCadastro.cadastroEndereco(sc);
 
-        // Criação do cliente com os dados fornecidos
         Cliente novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setTelefone(telefone);
@@ -45,13 +78,12 @@ public class ClienteMenu {
         novoCliente.setSenha(senha);
         novoCliente.addEndereco(enderecos);
 
-        // Adicionando o cliente ao banco de dados
         clienteRepo.saveUsuario(novoCliente);
 
         System.out.println("Cliente cadastrado com sucesso!");
     }
 
-    public static List<Usuario> pegarCliente() {
+    private static List<Usuario> pegarCliente() {
         System.out.println("Informações do Cliente:");
 
         List<Usuario> usuarios = clienteRepo.getUsuarios();
@@ -62,15 +94,14 @@ public class ClienteMenu {
     public static Usuario pegarClientePorID(Long id) {
         Usuario usuario = clienteRepo.getUsuarioById(id);
 
-        if(usuario == null){
+        if (usuario == null) {
             System.out.println("Esse usuário não existe.");
-            
             return null;
         }
         return usuario;
     }
 
-    public static void atualizarCliente(Scanner sc) {
+    private static void atualizarCliente(Scanner sc) {
         System.out.println("Atualização de Cliente:");
 
         System.out.print("ID do Cliente a ser atualizado: ");
@@ -96,9 +127,7 @@ public class ClienteMenu {
 
             System.out.print("Senha: ");
             String senha = sc.nextLine();
-    
 
-            // Atualizando os dados do cliente existente
             clienteExistente.setNome(novoNome);
             clienteExistente.setTelefone(novoTelefone);
             clienteExistente.setEmail(novoEmail);
@@ -106,7 +135,6 @@ public class ClienteMenu {
             clienteExistente.setCargo(novoCargo);
             clienteExistente.setSenha(senha);
 
-            // Persistindo as mudanças no banco de dados
             clienteRepo.updateUsuario(clienteExistente);
 
             System.out.println("Cliente atualizado com sucesso!");
@@ -115,7 +143,7 @@ public class ClienteMenu {
         }
     }
 
-    public static void deletarCliente(Scanner sc) {
+    private static void deletarCliente(Scanner sc) {
         System.out.println("Delete de Cliente:");
 
         System.out.print("ID do Cliente a ser atualizado: ");

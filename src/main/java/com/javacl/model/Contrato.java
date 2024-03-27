@@ -18,4 +18,16 @@ public class Contrato {
     private Funcionario funcionario;
     private EmpresaCliente empresa;
     private TipoPagamento tipoPagamento;
+
+    @Override
+    public String toString() {
+        return "Contrato{" +
+                "id=" + id +
+                ", plano=" + plano +
+                ", funcionario=" + funcionario +
+                ", empresa=" + empresa +
+                ", tipoPagamento=" + tipoPagamento +
+                '}';
+    }
+
 }

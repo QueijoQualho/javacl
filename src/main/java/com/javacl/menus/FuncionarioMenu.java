@@ -11,7 +11,48 @@ import com.javacl.repositorys.FuncionarioRepository;
 public class FuncionarioMenu {
     private static final FuncionarioRepository funcionarioRepo = new FuncionarioRepository();
 
-    public static void cadastrarFuncionario(Scanner sc) {
+    public static void menuFuncionario(Scanner sc) {
+        System.out.println("Menu Funcionário:");
+        System.out.println("1 - Cadastrar Funcionário");
+        System.out.println("2 - Atualizar Funcionário");
+        System.out.println("3 - Excluir Funcionário");
+        System.out.println("4 - Visualizar Funcionários");
+        System.out.println("0 - Voltar ao menu principal");
+
+        int opcaoFuncionario = Integer.parseInt(sc.nextLine());
+        switch (opcaoFuncionario) {
+            case 1:
+                cadastrarFuncionario(sc);
+                break;
+            case 2:
+                atualizarFuncionario(sc);
+                break;
+            case 3:
+                deletarFuncionario(sc);
+                break;
+            case 4:
+                List<Usuario> funcionarios = pegarFuncionario(sc);
+                for (Usuario usuario : funcionarios) {
+                    if (usuario instanceof Funcionario) {
+                        Funcionario funcionario = (Funcionario) usuario;
+                        System.out.println(funcionario.toString());
+                    }
+                }
+                break;
+            case 0:
+                System.out.println("Voltando ao menu principal...");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
+    }
+
+    public static Funcionario pegarFuncionarioPorID(Long id){
+        return (Funcionario) funcionarioRepo.getUsuarioById(id);
+    }
+
+    private static void cadastrarFuncionario(Scanner sc) {
         System.out.println("Cadastro de Funcionário:");
 
         System.out.print("Nome: ");
@@ -35,9 +76,8 @@ public class FuncionarioMenu {
         System.out.print("Salário: ");
         double salario = Double.parseDouble(sc.nextLine());
 
-        Endereco enderecos = EnderecoMenu.cadastroEndereco(sc);
+        Endereco enderecos = EnderecoCadastro.cadastroEndereco(sc);
 
-        // Criação do cliente com os dados fornecidos
         Funcionario novoFuncio = new Funcionario();
         novoFuncio.setNome(nome);
         novoFuncio.setTelefone(telefone);
@@ -48,13 +88,12 @@ public class FuncionarioMenu {
         novoFuncio.setSalario(salario);
         novoFuncio.setSenha(senha);
         
-        // Adicionando o funcionário ao banco de dados
         funcionarioRepo.saveUsuario(novoFuncio);
 
         System.out.println("Funcionário cadastrado com sucesso!");
     }
 
-    public static List<Usuario> pegarFuncionario(Scanner sc) {
+    private static List<Usuario> pegarFuncionario(Scanner sc) {
         System.out.println("Informações do Funcionario:");
 
         List<Usuario> usuarios = funcionarioRepo.getUsuarios();
@@ -62,7 +101,7 @@ public class FuncionarioMenu {
         return usuarios;
     }
 
-    public static void atualizarFuncionario(Scanner sc) {
+    private static void atualizarFuncionario(Scanner sc) {
         System.out.println("Atualização de Funcionário:");
 
         System.out.print("ID do Funcionário a ser atualizado: ");
@@ -92,7 +131,6 @@ public class FuncionarioMenu {
             System.out.print("Novo Salário: ");
             double novoSalario = Double.parseDouble(sc.nextLine());
 
-            // Atualizando os dados do funcionário existente
             funcionarioExistente.setNome(novoNome);
             funcionarioExistente.setTelefone(novoTelefone);
             funcionarioExistente.setEmail(novoEmail);
@@ -101,7 +139,6 @@ public class FuncionarioMenu {
             funcionarioExistente.setSenha(senha);
             funcionarioExistente.setSalario(novoSalario);
 
-            // Persistindo as mudanças no banco de dados
             funcionarioRepo.updateUsuario(funcionarioExistente);
 
             System.out.println("Funcionário atualizado com sucesso!");
@@ -110,7 +147,7 @@ public class FuncionarioMenu {
         }
     }
 
-    public static void deletarFuncionario(Scanner sc) {
+    private static void deletarFuncionario(Scanner sc) {
         System.out.println("Delete de Cliente:");
 
         System.out.print("ID do Cliente a ser atualizado: ");

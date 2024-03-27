@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.javacl.model.Produto;
 
-public class ProdutoMenu {
+public class ProdutoCadastro {
 
     public static List<Produto> cadastrarProduto(Scanner sc) {
         List<Produto> produtos = new ArrayList<>();
@@ -24,7 +24,6 @@ public class ProdutoMenu {
             System.out.print("Preço do Produto: ");
             double preco = Double.parseDouble(sc.nextLine());
 
-            // Criando o objeto Produto com os dados fornecidos
             Produto novoProduto = new Produto();
             novoProduto.setNome(nome);
             novoProduto.setPreco(preco);

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.javacl.model.Endereco;
 
-public class EnderecoMenu {
+public class EnderecoCadastro {
 
     public static Endereco cadastroEndereco(Scanner sc) {
         System.out.println("Informações de Endereço:");

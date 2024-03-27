@@ -10,10 +10,48 @@ import com.javacl.repositorys.EmpresaClienteRepository;
 public class EmpresaMenu {
     private static EmpresaClienteRepository empresaRepository = new EmpresaClienteRepository();
 
-    public static void cadastrarEmpresa(Scanner sc) {
+    public static void menuEmpresa(Scanner sc) {
+        System.out.println("Menu Empresa:");
+        System.out.println("1 - Cadastrar Empresa");
+        System.out.println("2 - Atualizar Empresa");
+        System.out.println("3 - Excluir Empresa");
+        System.out.println("4 - Visualizar Empresas");
+        System.out.println("0 - Voltar ao menu principal");
+
+        int opcaoEmpresa = Integer.parseInt(sc.nextLine());
+        switch (opcaoEmpresa) {
+            case 1:
+                cadastrarEmpresa(sc);
+                break;
+            case 2:
+                atualizarEmpresa(sc);
+                break;
+            case 3:
+                deletarEmpresa(sc);
+                break;
+            case 4:
+                List<EmpresaCliente> empresas = pegarEmpresas(sc);
+
+                for (EmpresaCliente empresaCliente : empresas) {
+                    System.out.println(empresaCliente);
+                }
+                break;
+            case 0:
+                System.out.println("Voltando ao menu principal...");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
+    }
+
+    public static EmpresaCliente pegarEmpresaClientePorID(Long id){
+        return empresaRepository.getEmpresaClienteById(id);
+    }
+
+    private static void cadastrarEmpresa(Scanner sc) {
         System.out.println("Cadastro de Empresa:");
 
-        // Solicitar informações da empresa ao usuário
         System.out.println("Qual o dono da empresa: (Informe o id)");
         Cliente cliente = (Cliente) ClienteMenu.pegarClientePorID(Long.parseLong(sc.nextLine()));
         System.out.print("CNPJ da empresa: ");
@@ -27,43 +65,37 @@ public class EmpresaMenu {
         System.out.print("Tamanho da empresa: ");
         int tamanho = Integer.parseInt(sc.nextLine());
 
-        // Criar o objeto EmpresaCliente com as informações fornecidas
-        EmpresaCliente novaEmpresa = new EmpresaCliente(null, cliente, cnpj, telefone, razaoSocial, nomeFantasia, tamanho);
- 
-        // Salvar a empresa no banco de dados
+        EmpresaCliente novaEmpresa = new EmpresaCliente(null, cliente, cnpj, telefone, razaoSocial, nomeFantasia,
+                tamanho);
+
         empresaRepository.saveEmpresaCliente(novaEmpresa);
     }
 
-    public static void atualizarEmpresa(Scanner sc) {
+    private static void atualizarEmpresa(Scanner sc) {
         System.out.println("Funcionalidade n implementada");
         return;
     }
 
-    public static void deletarEmpresa(Scanner sc) {
+    private static void deletarEmpresa(Scanner sc) {
         System.out.println("Exclusão de Empresa:");
 
-        // Solicitar o ID da empresa a ser excluída
         System.out.print("ID da empresa a ser excluída: ");
         Long idEmpresa = Long.parseLong(sc.nextLine());
 
-        // Verificar se a empresa existe antes de excluir
         EmpresaCliente empresaExistente = empresaRepository.getEmpresaClienteById(idEmpresa);
         if (empresaExistente == null) {
             System.out.println("Empresa não encontrada.");
             return;
         }
 
-        // Excluir a empresa do banco de dados
         empresaRepository.deleteEmpresaCliente(idEmpresa);
     }
 
-    public static List<EmpresaCliente> pegarEmpresas(Scanner sc) {
+    private static List<EmpresaCliente> pegarEmpresas(Scanner sc) {
         System.out.println("Lista de Empresas:");
 
-        // Recuperar a lista de empresas do banco de dados
         List<EmpresaCliente> empresas = empresaRepository.getEmpresasClientes();
 
-        // Verificar se existem empresas cadastradas
         if (empresas.isEmpty()) {
             System.out.println("Nenhuma empresa cadastrada.");
         }

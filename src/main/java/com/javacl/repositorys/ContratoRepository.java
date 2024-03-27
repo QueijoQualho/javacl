@@ -29,7 +29,8 @@ public class ContratoRepository {
             stmt.setLong(3, contrato.getPlano().getId());
 
             stmt.executeUpdate();
-            System.out.println("Contrato salvo com sucesso!");
+
+            System.out.println("Contrato Salvo");
         } catch (SQLException e) {
             System.out.println("Erro ao salvar contrato no banco de dados!");
             e.printStackTrace();
@@ -108,12 +109,6 @@ public class ContratoRepository {
             stmt.setLong(3, contrato.getPlano().getId());
             stmt.setLong(4, contrato.getId());
     
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Contrato atualizado com sucesso!");
-            } else {
-                System.out.println("Nenhum contrato foi atualizado. Verifique o ID do contrato fornecido.");
-            }
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar contrato no banco de dados!");
             e.printStackTrace();

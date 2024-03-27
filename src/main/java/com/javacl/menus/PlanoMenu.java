@@ -12,28 +12,62 @@ import com.javacl.repositorys.PlanoRepository;
 public class PlanoMenu {
     private static final PlanoRepository planoRepo = new PlanoRepository();
 
-    public static void cadastrarPlano(Scanner sc) {
-        System.out.println("Cadastro de Plano:");
+    public static void menuPlano(Scanner sc) {
+        System.out.println("Menu Plano:");
+        System.out.println("1 - Cadastrar Plano");
+        System.out.println("2 - Atualizar Plano");
+        System.out.println("3 - Excluir Plano");
+        System.out.println("4 - Visualizar Planos");
+        System.out.println("0 - Voltar ao menu principal");
 
+        int opcaoPlano = Integer.parseInt(sc.nextLine());
+        switch (opcaoPlano) {
+            case 1:
+                cadastrarPlano(sc);
+                break;
+            case 2:
+                atualizarPlano(sc);
+                break;
+            case 3:
+                deletarPlano(sc);
+                break;
+            case 4:
+                List<Plano> planos = pegarPlanos();
+                for (Plano plano : planos) {
+                    System.out.println(plano.toString());
+                }
+                break;
+            case 0:
+                System.out.println("Voltando ao menu principal...");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
+    }
+
+    public static Plano pegarPlanoPorID(Long id) {
+        return planoRepo.getPlanoById(id);
+    }
+
+    private static void cadastrarPlano(Scanner sc) {
+        System.out.println("Cadastro de Plano:");
         System.out.println("Nome Fantasia: ");
         String nomeFantasia = sc.nextLine();
-
         System.out.println("Tipo de Plano (ANUAL, SEMESTRAL, TRIMESTRAL, MENSAL): ");
         String tipoPlano = sc.nextLine();
 
-        List<Produto> produtos = ProdutoMenu.cadastrarProduto(sc);
+        List<Produto> produtos = ProdutoCadastro.cadastrarProduto(sc);
 
-        // Criação do plano com os dados fornecidos
         Plano novoPlano = new Plano(nomeFantasia, TipoPlano.valueOf(tipoPlano.toUpperCase()), null);
         novoPlano.setListaProdutos(produtos);
 
-        // Adicionando o plano ao banco de dados
         planoRepo.savePlano(novoPlano);
 
         System.out.println("Plano cadastrado com sucesso!");
     }
 
-    public static List<Plano> pegarPlanos() {
+    private static List<Plano> pegarPlanos() {
         System.out.println("Informações do Plano:");
 
         List<Plano> planosDisponiveis = planoRepo.getPlano();
@@ -41,7 +75,7 @@ public class PlanoMenu {
         return planosDisponiveis;
     }
 
-    public static void atualizarPlano(Scanner sc) {
+    private static void atualizarPlano(Scanner sc) {
         System.out.println("Atualização de Plano:");
 
         System.out.println("ID do Plano a ser atualizado: ");
@@ -65,14 +99,12 @@ public class PlanoMenu {
             System.out.print("Novo Valor: ");
             double novoValor = Double.parseDouble(sc.nextLine());
 
-            // Atualizando os dados do plano existente
             planoExistente.setNomeFantasia(novoNomeFantasia);
             planoExistente.setTipoPlano(TipoPlano.valueOf(novoTipoPlano.toUpperCase()));
             planoExistente.setDataInicio(LocalDate.parse(novaDataInicio));
             planoExistente.setDataFinal(LocalDate.parse(novaDataFinal));
             planoExistente.setValor(novoValor);
 
-            // Persistindo as mudanças no banco de dados
             planoRepo.updatePlano(planoExistente);
 
             System.out.println("Plano atualizado com sucesso!");
@@ -81,7 +113,7 @@ public class PlanoMenu {
         }
     }
 
-    public static void deletarPlano(Scanner sc) {
+    private static void deletarPlano(Scanner sc) {
         System.out.println("Exclusão de Plano:");
 
         System.out.print("ID do Plano a ser excluído: ");
