@@ -13,53 +13,24 @@ Um sistema de login em Java pode ser criado usando apenas as classes Scanner par
 Este é um projeto Java de exemplo que demonstra um sistema de gerenciamento de contratos. Ele permite a criação de representantes, empresas clientes, planos, produtos e contratos, bem como autenticação de usuários. O projeto demonstra o uso de classes e objetos em Java.
 
 ## Diagrama de Classe
-![Diagrama de classe - Sistema de Gerenciamento de Contratos](https://i.imgur.com/26RXUeS.png)
+![Diagrama](https://github.com/QueijoQualho/JavaCL/assets/134734704/3f6887d6-c3a7-4604-927e-395a239dbda0)
+
+# Sistema de Gerenciamento de Contratos
+Este é um sistema de gerenciamento desenvolvido em Java para realizar operações CRUD (Create, Read, Update, Delete) em diferentes entidades, como Cliente, Funcionário, Plano, Empresa e Contrato. Cada entidade possui um menu próprio para interação com o usuário.
 
 ## Funcionalidades
-- Cadastro de representantes e funcionários.
-- Cadastro de empresas clientes.
-- Criação de planos com produtos e cálculo de valor.
-- Geração de contratos e processamento de pagamentos.
-- Listar cadastros realizados
+1. Menu Cliente: Permite ao usuário realizar operações relacionadas aos clientes, como adicionar, visualizar, atualizar e excluir informações.
+2. Menu Funcionário: Fornece funcionalidades semelhantes ao menu Cliente, mas para entidades de Funcionário.
+3. Menu Plano: Gerencia os planos disponíveis no sistema, permitindo adição, visualização, atualização e exclusão.
+4. Menu Empresa: Oferece funcionalidades relacionadas às empresas cadastradas no sistema, como adicionar, visualizar, atualizar e excluir informações.
+5. Menu Contrato: Permite a criação, visualização, atualização e exclusão de contratos entre clientes e empresas.
 
-## Como usar
-1. Execute a classe Main para testar as funcionalidades do sistema. 
-2. O programa oferece as seguintes opções no menu:
-   - Cadastrar Cliente: Permite cadastrar um novo cliente, que pode ser uma empresa.
-   - Cadastrar Funcionário: Permite cadastrar um funcionário no sistema.
-   - Montar Plano: Permite criar um plano que inclui diferentes produtos, como CRM, Cloud Service e Marketing.
-   - Gerar Contrato: Gere um contrato para uma empresa, selecionando um plano e funcionário disponíveis.
-   - Lista de cadastros: Mostra todos os cadastros realizado no codigo, como funcionarios, clientes, planos e contratos
-   - Sair: Encerra o programa.
+## Pré-requisitos
+Java Development Kit (JDK) instalado
+Banco de dados configurado e acessível (por exemplo, MySQL, PostgreSQL)
 
-## Exemplo de Uso
-1. Escolha a opção "Cadastrar Cliente" e siga as instruções para cadastrar uma empresa cliente.
-2. Escolha a opção "Cadastrar Funcionário" para registrar funcionários no sistema.
-3. Selecione a opção "Montar Plano" para criar um novo plano e escolher quais serviços incluir.
-4. Ao selecionar a opção "Gerar Contrato", o programa solicitará que você escolha um plano, uma empresa cliente e um funcionário disponível. Depois, escolha a forma de pagamento (crédito ou boleto).
-5. O contrato será gerado com sucesso.
-6. Repita essas etapas conforme necessário.
-
-## Detalhamento do Processo de Cadastro e Armazenamento de Dados
-Ao escolher qualquer uma das opções de cadastros o sistema solicitara as informações necessarias para realizar o cadastro 
-
-**Exemplo:**
-```java 
-   // Trecho simplificado para ilustrar o cadastro de um cliente
-   Scanner scanner = new Scanner(System.in);
-
-   System.out.println("Informe o nome da empresa cliente:");
-   String nomeCliente = scanner.nextLine();
-
-   System.out.println("Informe o CNPJ da empresa cliente:");
-   String cnpjCliente = scanner.nextLine();
-
-   // captura de outros dados...
-
-   Cliente novoCliente = new Cliente(nomeCliente, cnpjCliente, /* outros dados */);
-   listaClientes.add(novoCliente); 
-```
-
-
-## Demonstração do Codigo
-![Desmonstrativo do codigo rodando](https://i.imgur.com/vvVRELQ.gif)
+## Execução
+1. Clone o repositório para o seu ambiente local.
+2. Abra o projeto em sua IDE Java preferida.
+3. Compile e execute o arquivo Main.java.
+4. Siga as instruções no menu para interagir com o sistema.
