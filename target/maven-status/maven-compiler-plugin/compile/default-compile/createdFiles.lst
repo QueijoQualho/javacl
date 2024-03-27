@@ -1,0 +1,11 @@
+com\javacl\classes\SistemaLogin.class
+com\javacl\classes\pessoa\Cliente.class
+com\javacl\dao\ClienteDAO.class
+com\javacl\classes\pessoa\Funcionario.class
+com\javacl\classes\Endereco.class
+com\javacl\classes\Plano.class
+com\javacl\Main.class
+com\javacl\classes\Contrato.class
+com\javacl\classes\Empresa_cliente.class
+com\javacl\classes\Produto.class
+com\javacl\classes\pessoa\Usuario.class
