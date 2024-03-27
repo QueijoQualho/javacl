@@ -27,7 +27,6 @@ Este é um sistema de gerenciamento desenvolvido em Java para realizar operaçõ
 
 ## Pré-requisitos
 Java Development Kit (JDK) instalado
-Banco de dados configurado e acessível (por exemplo, MySQL, PostgreSQL)
 
 ## Execução
 1. Clone o repositório para o seu ambiente local.
